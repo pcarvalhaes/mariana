@@ -405,17 +405,10 @@
       overflow: visible
     }
 
-    /* About — label left, title right, 4 cards */
-    .about {
-      padding: 80px 0
-    }
-
-    .about-top {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 40px;
-      align-items: start;
-      margin-bottom: 48px
+    /* Help — painéis de imagem em acordeão, como Stillroom */
+    .help {
+      padding: 100px 0;
+      background: var(--bg)
     }
 
     .pill {
@@ -425,67 +418,302 @@
       border-radius: 100px;
       font-size: 13px;
       color: var(--muted);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .05)
     }
 
-    .about-top h2 {
+    .help-head {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 64px;
+      align-items: center;
+      margin-bottom: 56px
+    }
+
+    .help-head .pill {
+      margin-bottom: 16px
+    }
+
+    .help-head h2 {
       font-family: "Cinzel Decorative", serif;
       font-weight: 400;
-      font-size: clamp(1.7rem, 3vw, 2.4rem);
-      line-height: 1.25;
+      font-size: clamp(1.9rem, 3.2vw, 2.65rem);
+      line-height: 1.22;
+      max-width: 620px
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px
+    .help-head>p {
+      justify-self: end;
+      max-width: 360px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55
     }
 
-    .stat {
-      background: #fff;
-      border-radius: 16px;
-      padding: 24px 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, .05);
-    }
-
-    .stat.dark {
-      background: var(--burgundy);
-      color: #fff;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      min-height: 160px;
+    .help-row {
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      gap: 12px;
+      height: 600px
     }
 
-    .stat.dark::before {
-      content: "";
+    .help-panel {
+      position: relative;
+      flex: 1 1 0;
+      min-width: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--burgundy);
+      cursor: pointer;
+      isolation: isolate;
+      outline: none;
+      transition: flex-grow .7s ease-in-out .06s;
+      transition: flex-grow .76s linear(0, 0.06 13%, 0.22 24%, 0.82 45%, 0.98 67%, 1) .14s
+    }
+
+    .help-panel.is-active {
+      flex-grow: 2.8
+    }
+
+    .help-img {
       position: absolute;
       inset: 0;
-      background: rgba(52, 3, 16, .55);
-      border-radius: 16px
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.18);
+      transition: transform .7s ease-in-out .06s
     }
 
-    .stat.dark>* {
-      position: relative;
-      z-index: 1
+    .help-panel.is-active .help-img {
+      transform: scale(1)
     }
 
-    .stat h3 {
+    .help-shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(24, 3, 10, .3) 0%, rgba(24, 3, 10, 0) 42%, rgba(24, 3, 10, .82) 100%)
+    }
+
+    .help-tint {
+      position: absolute;
+      inset: 0;
+      background: var(--burgundy);
+      opacity: .28;
+      transition: opacity .7s ease .2s
+    }
+
+    .help-panel.is-active .help-tint {
+      opacity: 0;
+      transition: opacity .8s ease .15s
+    }
+
+    .help-num {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, .3);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .16);
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: 13px;
+      line-height: 16px;
+      transition: left .45s ease, top .45s ease
+    }
+
+    .help-panel.is-active .help-num {
+      top: 28px;
+      left: 32px
+    }
+
+    .help-closed {
+      position: absolute;
+      left: 20px;
+      bottom: 20px;
+      width: 140px;
+      opacity: 1;
+      transition: opacity .4s ease .3s;
+      pointer-events: none
+    }
+
+    .help-panel.is-active .help-closed {
+      opacity: 0;
+      transition: opacity .3s ease
+    }
+
+    .help-closed h3 {
       font-family: "Cinzel Decorative", serif;
-      font-size: 1.3rem;
-      margin-bottom: 6px
+      font-weight: 400;
+      font-size: clamp(1rem, 1.25vw, 1.125rem);
+      line-height: 1.2;
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(18, 3, 8, .45);
+      margin-bottom: 16px
     }
 
-    .stat p {
-      font-size: .85rem;
-      color: var(--muted)
+    .help-plus {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .3);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .16);
+      backdrop-filter: blur(16px);
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 1;
+      color: #fff
     }
 
-    .stat.dark p {
-      color: rgba(255, 255, 255, .85)
+    .help-details {
+      position: absolute;
+      left: 32px;
+      bottom: 32px;
+      width: 440px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity .18s ease .12s, transform .3s ease .12s;
+      pointer-events: none
+    }
+
+    .help-panel.is-active .help-details {
+      opacity: 1;
+      transform: none;
+      transition: opacity .35s ease .3s, transform .45s ease .3s
+    }
+
+    .help-details h3 {
+      font-family: "Cinzel Decorative", serif;
+      font-weight: 400;
+      font-size: 2.5rem;
+      line-height: 1.06;
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(18, 3, 8, .45);
+      margin-bottom: 16px
+    }
+
+    .help-details p {
+      max-width: 420px;
+      color: rgba(255, 255, 255, .92);
+      font-size: 16px;
+      line-height: 1.5;
+      text-shadow: 0 2px 20px rgba(18, 3, 8, .45);
+      margin-bottom: 16px
+    }
+
+    .help-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 6px
+    }
+
+    .help-tags span {
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, .3);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .16);
+      backdrop-filter: blur(16px);
+      color: #fff;
+      font-size: 12px;
+      line-height: 16px
+    }
+
+    @media(max-width:1024px) {
+      .why {
+        padding: 70px 20px
+      }
+
+      .why-card {
+        min-height: 600px
+      }
+
+      .help {
+        padding: 70px 0
+      }
+
+      .help-head {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 32px
+      }
+
+      .help-head h2 {
+        max-width: 100%;
+        font-size: clamp(1.9rem, 6vw, 2.4rem)
+      }
+
+      .help-head>p {
+        justify-self: start;
+        max-width: 100%;
+        font-size: 15px
+      }
+
+      .help-row {
+        flex-direction: column;
+        height: auto;
+        gap: 10px
+      }
+
+      .help-panel {
+        flex: none;
+        height: 400px;
+        cursor: default
+      }
+
+      .help-panel.is-active {
+        flex-grow: 0
+      }
+
+      .help-tint {
+        opacity: 0
+      }
+
+      .help-img,
+      .help-panel.is-active .help-img {
+        transform: none
+      }
+
+      .help-closed {
+        display: none
+      }
+
+      .help-num {
+        top: 20px;
+        left: 20px
+      }
+
+      .help-panel.is-active .help-num {
+        top: 20px;
+        left: 20px
+      }
+
+      .help-details {
+        left: 24px;
+        right: 24px;
+        bottom: 24px;
+        width: auto;
+        opacity: 1;
+        transform: none
+      }
+
+      .help-details h3 {
+        font-size: 2rem;
+        margin-bottom: 12px
+      }
+
+      .help-details p {
+        font-size: 15px;
+        line-height: 1.45;
+        margin-bottom: 14px
+      }
+
+      .help-tags span {
+        padding: 5px 10px;
+        font-size: 11px
+      }
     }
 
     /* Classes / Mentoria */
@@ -665,7 +893,7 @@
       grid-template-columns: 1fr 1fr;
       align-items: stretch;
       padding: 16px;
-      min-height: 586px;
+      min-height: 472px;
       box-shadow: 0 12px 40px rgba(52, 3, 16, .07);
       margin-bottom: 20px;
       transition: box-shadow .4s ease, border-color .4s ease;
@@ -691,7 +919,7 @@
       border-radius: 16px;
       background-size: cover;
       background-position: center;
-      min-height: 554px;
+      min-height: 440px;
       transition: transform .7s cubic-bezier(.22, 1, .36, 1);
       will-change: transform
     }
@@ -760,7 +988,12 @@
 
     /* Why — card com imagem que troca no hover, como Elyora */
     .why {
-      padding: 80px 0
+      padding: 100px 30px
+    }
+
+    .why .wrap {
+      max-width: none;
+      padding: 0
     }
 
     .why-card {
@@ -770,7 +1003,7 @@
       color: #fff;
       border-radius: 20px;
       padding: 56px 48px 44px;
-      min-height: 600px;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -893,180 +1126,248 @@
       line-height: 1.55
     }
 
-    /* How */
+    /* How — cartões fixos com imagens e movimento no scroll, como Elyora */
     .how {
-      padding: 80px 0
+      padding: 100px 0
     }
 
-    .how-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center
+    .how-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 100px
+    }
+
+    .how-head {
+      position: sticky;
+      top: 80px;
+      flex: 0 0 calc(50% - 50px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px
     }
 
     .how .pill {
-      margin-bottom: 12px
+      margin: 0
     }
 
     .how h2 {
       font-family: "Cinzel Decorative", serif;
       font-weight: 400;
-      font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: 12px
+      font-size: clamp(2rem, 3.2vw, 2.7rem);
+      line-height: 1.2;
+      max-width: 440px
     }
 
     .how .lead {
       color: var(--muted);
-      margin-bottom: 20px
+      font-size: 16px;
+      line-height: 1.55;
+      max-width: 430px
     }
 
-    .steps {
+    .how-head .btn {
+      padding: 14px 28px;
+      margin-top: 5px
+    }
+
+    .how-cards {
+      flex: 0 0 calc(50% - 50px);
       display: flex;
       flex-direction: column;
-      gap: 12px
+      gap: 15px
     }
 
-    .step {
-      background: #fff;
-      border-radius: 16px;
-      padding: 20px 24px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, .05);
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 16px
+    .how-card {
+      position: relative;
+      aspect-ratio: .957;
+      border-radius: 20px;
+      overflow: hidden;
+      padding: 30px 16px 30px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      background: var(--burgundy);
+      box-shadow: 0 18px 40px rgba(52, 3, 16, .16);
+      isolation: isolate;
+      will-change: transform;
+      transform-origin: 50% 50%;
+      transition: box-shadow .4s
     }
 
-    .step-n {
+    .how-card:nth-child(1) {
+      position: sticky;
+      top: 80px;
+      z-index: 1
+    }
+
+    .how-card:nth-child(2) {
+      position: sticky;
+      top: 120px;
+      z-index: 2
+    }
+
+    .how-card:nth-child(3) {
+      z-index: 3
+    }
+
+    .how-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: -2
+    }
+
+    .how-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, rgba(24, 3, 10, .34) 0%, rgba(24, 3, 10, .04) 38%, rgba(24, 3, 10, .72) 100%)
+    }
+
+    .how-num {
       font-family: "Cinzel Decorative", serif;
-      font-size: 1.5rem;
-      color: var(--gold)
+      font-size: 2.5rem;
+      line-height: 1;
+      color: #fff
     }
 
-    .step h4 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 4px
+    .how-details {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 350px
     }
 
-    .step p {
-      font-size: .88rem;
-      color: var(--muted)
+    .how-details h3 {
+      font-family: "Cinzel Decorative", serif;
+      font-size: 1.375rem;
+      font-weight: 400;
+      line-height: 1.2
     }
 
-    /* Pricing */
-    .pricing {
-      padding: 80px 0;
+    .how-details p {
+      font-size: 14px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, .86)
+    }
+
+    /* Por que escolher — três colunas com imagem central, como Yogaz */
+    .why-us {
+      padding: 100px 0;
       background: #f0efe9
     }
 
-    .price-head {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      align-items: end;
-      margin-bottom: 40px
+    .why-us-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 64px;
+      margin-bottom: 64px
     }
 
-    .price-head .pill {
-      margin-bottom: 10px
-    }
-
-    .price-head h2 {
+    .why-us-head h2 {
       font-family: "Cinzel Decorative", serif;
       font-weight: 400;
-      font-size: clamp(1.7rem, 3vw, 2.4rem)
+      font-size: clamp(2rem, 3.2vw, 2.7rem);
+      line-height: 1.2;
+      max-width: 540px
     }
 
-    .price-head p {
-      color: var(--muted)
+    .why-us-head p {
+      flex: 0 0 328px;
+      max-width: 328px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.3
     }
 
-    .price-grid {
+    .why-us-grid {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 20px
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: stretch
     }
 
-    .plan {
+    .why-us-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px
+    }
+
+    .why-us-card {
+      height: 256px;
       background: #fff;
       border-radius: 20px;
-      padding: 32px 28px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, .05)
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(52, 3, 16, .04)
     }
 
-    .plan.dark {
-      background: var(--burgundy);
-      color: #fff
-    }
-
-    .plan .tag {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 6px
-    }
-
-    .plan.dark .tag {
+    .why-us-ico {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(175, 138, 54, .12);
       color: var(--gold)
     }
 
-    .plan h3 {
-      font-family: "Cinzel Decorative", serif;
-      font-size: 1.5rem;
-      margin-bottom: 6px
+    .why-us-ico svg {
+      width: 22px;
+      height: 22px
     }
 
-    .plan.dark h3 {
-      color: #fff
+    .why-us-copy {
+      margin-top: auto
     }
 
-    .plan .sub {
-      font-size: .9rem;
-      color: var(--muted);
-      margin-bottom: 16px
+    .why-us-copy h3 {
+      font-family: Montserrat, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1.3;
+      color: var(--burgundy);
+      margin-bottom: 10px
     }
 
-    .plan.dark .sub {
-      color: rgba(255, 255, 255, .75)
-    }
-
-    .plan .price {
-      font-size: 1.1rem;
-      color: var(--gold);
-      margin-bottom: 16px
-    }
-
-    .plan ul {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 20px;
-      padding: 16px;
-      background: var(--bg);
-      border-radius: 12px
-    }
-
-    .plan.dark ul {
-      background: rgba(255, 255, 255, .08);
-      grid-template-columns: 1fr
-    }
-
-    .plan li {
-      font-size: .88rem;
+    .why-us-copy p {
+      font-size: 15px;
+      line-height: 1.45;
       color: var(--muted)
     }
 
-    .plan.dark li {
-      color: rgba(255, 255, 255, .85)
+    .why-us-center {
+      position: relative;
+      min-height: 536px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--burgundy);
+      isolation: isolate
     }
 
-    .plan .btn {
-      width: 100%
+    .why-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block
     }
 
-    .plan.dark .btn {
-      background: #fff;
-      color: var(--burgundy)
+    .why-us-center::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(24, 3, 10, .1) 0%, rgba(24, 3, 10, 0) 45%, rgba(24, 3, 10, .28) 100%);
+      pointer-events: none
     }
 
     /* Depoimentos — colunas em movimento, como Yogaz */
@@ -1113,16 +1414,16 @@
     .testi-track {
       display: flex;
       flex-direction: column;
-      animation: testiScroll 42s linear infinite;
+      animation: testiScroll 26s linear infinite;
       will-change: transform
     }
 
     .testi-col:nth-child(2) .testi-track {
-      animation-duration: 52s
+      animation-duration: 32s
     }
 
     .testi-col:nth-child(3) .testi-track {
-      animation-duration: 46s
+      animation-duration: 28s
     }
 
     @keyframes testiScroll {
@@ -1256,31 +1557,61 @@
       margin-top: 16px
     }
 
-    /* FAQ */
+    /* FAQ — duas colunas com acordeão branco, como Elyora */
     .faq {
-      padding: 80px 0;
-      text-align: center
+      padding: 100px 0
+    }
+
+    .faq-grid {
+      display: flex;
+      align-items: flex-start;
+      gap: 50px
+    }
+
+    .faq-intro {
+      flex: 0 0 calc(50% - 25px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px
     }
 
     .faq .pill {
-      margin-bottom: 12px
+      margin: 0
     }
 
     .faq h2 {
       font-family: "Cinzel Decorative", serif;
       font-weight: 400;
-      font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: 32px
+      font-size: clamp(2rem, 3.2vw, 2.7rem);
+      line-height: 1.2;
+      max-width: 450px
+    }
+
+    .faq-intro p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      max-width: 400px
+    }
+
+    .faq-intro .btn {
+      padding: 14px 28px;
+      margin-top: 5px
     }
 
     .faq-list {
-      max-width: 640px;
-      margin: 0 auto;
-      text-align: left
+      flex: 0 0 calc(50% - 25px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px
     }
 
     .faq-item {
-      border-bottom: 1px solid #e5e0d8
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 2px 10px rgba(52, 3, 16, .04)
     }
 
     .faq-q {
@@ -1288,17 +1619,48 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 0;
-      background: none;
+      gap: 10px;
+      padding: 6px 6px 6px 16px;
       border: none;
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
       cursor: pointer;
-      font-size: 1rem;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
       text-align: left;
+      transition: background .3s, color .3s
     }
 
     .faq-q:hover {
-      color: var(--gold)
+      background: rgba(52, 3, 16, .04)
+    }
+
+    .faq-item.open .faq-q {
+      background: var(--burgundy);
+      color: #fff
+    }
+
+    .faq-icon {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(175, 138, 54, .12);
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1;
+      transition: transform .3s, background .3s, color .3s
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: rgba(255, 255, 255, .12);
+      color: #fff
     }
 
     .faq-a {
@@ -1308,107 +1670,222 @@
     }
 
     .faq-item.open .faq-a {
-      max-height: 200px
+      max-height: 260px
     }
 
     .faq-a p {
-      font-size: .9rem;
+      font-size: 15px;
       color: var(--muted);
-      padding-bottom: 16px;
-      line-height: 1.6
+      padding: 16px 16px 8px;
+      line-height: 1.65
     }
 
-    /* Form */
+    /* Form — imagem + painel de contato como "Begin gently" */
     .form-sec {
       padding: 80px 0;
-      background: #f0efe9;
-      text-align: center
+      background: var(--bg)
     }
 
-    .form-sec .pill {
-      margin-bottom: 12px
+    .form-card {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 420px;
+      align-items: center;
+      gap: 48px;
+      min-height: 620px;
+      padding: 48px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #1c070d url("images/mari02.avif") 62% center/cover no-repeat;
+      box-shadow: 0 24px 60px rgba(52, 3, 16, .14);
     }
 
-    .form-sec h2 {
+    .form-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, rgba(24, 3, 10, .9) 0%, rgba(24, 3, 10, .68) 46%, rgba(24, 3, 10, .5) 100%);
+    }
+
+    .form-copy {
+      color: #fff;
+      max-width: 470px
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 22px
+    }
+
+    .form-label::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: var(--gold);
+      opacity: .7
+    }
+
+    .form-copy h2 {
       font-family: "Cinzel Decorative", serif;
       font-weight: 400;
-      font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: 8px
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      line-height: 1.15;
+      margin-bottom: 18px
     }
 
-    .form-sec .lead {
-      color: var(--muted);
-      margin-bottom: 32px
+    .form-copy>p {
+      color: rgba(255, 255, 255, .78);
+      line-height: 1.7;
+      max-width: 380px;
+      margin-bottom: 28px
     }
 
-    .form-box {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #fff;
+    .form-call {
+      font-size: .9rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, .68)
+    }
+
+    .form-call a {
+      color: #fff;
+      border-bottom: 1px solid rgba(175, 138, 54, .8);
+      padding-bottom: 2px;
+      transition: color .2s, border-color .2s
+    }
+
+    .form-call a:hover {
+      color: var(--gold);
+      border-color: var(--gold)
+    }
+
+    .form-panel {
+      width: 100%;
+      max-width: 420px;
+      justify-self: end;
+      padding: 26px;
+      border: 1px solid rgba(255, 255, 255, .14);
       border-radius: 20px;
-      padding: 36px 28px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, .05);
-      text-align: left
+      background: rgba(42, 8, 18, .74);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .24);
+      color: #fff
+    }
+
+    .form-panel-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 18px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, .12)
+    }
+
+    .avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      flex: none;
+      border: 1px solid rgba(175, 138, 54, .6);
+      border-radius: 50%;
+      background: rgba(175, 138, 54, .14);
+      font-family: "Cinzel Decorative", serif;
+      font-size: 13px;
+      color: var(--gold)
+    }
+
+    .form-panel-head h3 {
+      font-family: Montserrat, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px
+    }
+
+    .form-panel-head p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .6)
     }
 
     .fg {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px
-    }
-
-    .fg .full {
-      grid-column: 1/-1
+      display: flex;
+      flex-direction: column;
+      gap: 14px
     }
 
     .fg label {
       display: block;
       font-size: 12px;
       font-weight: 500;
-      color: var(--muted);
-      margin-bottom: 4px
+      color: rgba(255, 255, 255, .65);
+      margin-bottom: 6px
     }
 
     .fg input,
     .fg textarea {
       width: 100%;
-      padding: 11px 12px;
-      border: 1px solid #e5e0d8;
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 255, 255, .16);
       border-radius: 10px;
-      background: #f9f8f5;
+      background: rgba(255, 255, 255, .07);
+      color: #fff;
       font-size: 14px;
       transition: border-color .25s, box-shadow .25s, background .25s
+    }
+
+    .fg input::placeholder,
+    .fg textarea::placeholder {
+      color: rgba(255, 255, 255, .4)
     }
 
     .fg input:focus,
     .fg textarea:focus {
       outline: none;
       border-color: var(--gold);
-      background: #fff;
-      box-shadow: 0 0 0 3px rgba(175, 138, 54, .12);
+      background: rgba(255, 255, 255, .1);
+      box-shadow: 0 0 0 3px rgba(175, 138, 54, .18)
     }
 
     .fg textarea {
-      min-height: 70px;
+      min-height: 92px;
       resize: vertical
     }
 
-    .check {
-      display: flex;
-      gap: 8px;
-      margin: 14px 0 16px;
-      font-size: 13px;
-      color: var(--muted)
+    .form-panel .btn {
+      width: 100%;
+      margin-top: 18px;
+      padding: 13px 20px;
+      background: var(--gold);
+      color: #2b0713;
+      font-weight: 600
     }
 
-    .form-box .btn {
-      width: 100%
+    .form-panel .btn span {
+      margin-left: 6px;
+      font-size: 15px
+    }
+
+    .form-note {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, .48)
     }
 
     .ok {
       display: none;
       text-align: center;
-      padding: 24px
+      padding: 24px 8px 12px
     }
 
     .ok.show {
@@ -1417,7 +1894,16 @@
 
     .ok h3 {
       font-family: "Cinzel Decorative", serif;
-      margin-bottom: 8px
+      font-weight: 400;
+      font-size: 1.3rem;
+      line-height: 1.4;
+      margin-bottom: 10px
+    }
+
+    .ok p {
+      font-size: .9rem;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, .7)
     }
 
     /* Final CTA */
@@ -1432,7 +1918,7 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(160deg, rgba(52, 3, 16, .9), rgba(52, 3, 16, .85)),
-        url("https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=1600&q=80") center/cover;
+        url("./images/final-bg.avif") center/cover;
     }
 
     .final .wrap {
@@ -1535,22 +2021,8 @@
 
     @media (hover:hover) and (pointer:fine) {
 
-      .plan,
-      .step,
-      .stat,
       .testi-card {
         transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease
-      }
-
-      .plan:hover,
-      .step:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 18px 40px rgba(52, 3, 16, .1)
-      }
-
-      .stat:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 14px 34px rgba(52, 3, 16, .08)
       }
 
       .feat-card:hover .feat-bg {
@@ -1584,6 +2056,7 @@
     }
 
     @media (hover:none) {
+
       .feat-card::before,
       .feat-card::after {
         opacity: 1
@@ -1610,9 +2083,6 @@
       .btn,
       .feat-card,
       .feat-body h3,
-      .plan,
-      .step,
-      .stat,
       .testi-card,
       .stack-card,
       .stack-img {
@@ -1657,18 +2127,161 @@
         line-height: 1.5
       }
 
-      .about-top,
       .feat,
       .prog-head,
-      .how-grid,
-      .price-head,
-      .price-grid,
       .team-grid {
         grid-template-columns: 1fr
       }
 
-      .stats {
-        grid-template-columns: 1fr 1fr
+      .why-us {
+        padding: 70px 0
+      }
+
+      .why-us-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 32px
+      }
+
+      .why-us-head h2 {
+        font-size: clamp(1.9rem, 6vw, 2.4rem);
+        max-width: 100%
+      }
+
+      .why-us-head p {
+        flex: 1 1 auto;
+        max-width: 100%;
+        font-size: 16px
+      }
+
+      .why-us-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px
+      }
+
+      .why-us-col {
+        gap: 20px
+      }
+
+      .why-us-card {
+        height: auto;
+        min-height: 230px
+      }
+
+      .why-us-center {
+        height: 500px;
+        min-height: 0
+      }
+
+      .how {
+        padding: 70px 0
+      }
+
+      .how-wrap {
+        flex-direction: column;
+        gap: 70px
+      }
+
+      .how-head {
+        position: static;
+        flex: 1 1 auto;
+        width: 100%;
+        gap: 14px
+      }
+
+      .how h2 {
+        font-size: clamp(1.9rem, 6vw, 2.4rem);
+        max-width: 100%
+      }
+
+      .how .lead {
+        max-width: 100%
+      }
+
+      .how-cards {
+        flex: 1 1 auto;
+        width: 100%;
+        gap: 10px
+      }
+
+      .how-card {
+        padding: 24px 16px 24px 24px
+      }
+
+      .how-card:nth-child(1) {
+        top: 80px
+      }
+
+      .how-card:nth-child(2) {
+        top: 120px
+      }
+
+      .how-num {
+        font-size: 2rem
+      }
+
+      .how-details {
+        gap: 12px;
+        max-width: 100%
+      }
+
+      .how-details h3 {
+        font-size: 1.25rem
+      }
+
+      .how-details p {
+        font-size: 13px
+      }
+
+      .faq {
+        padding: 70px 0
+      }
+
+      .faq-grid {
+        flex-direction: column;
+        gap: 32px
+      }
+
+      .faq-intro,
+      .faq-list {
+        flex: 1 1 auto;
+        width: 100%
+      }
+
+      .faq-intro {
+        gap: 14px
+      }
+
+      .faq h2 {
+        font-size: clamp(1.9rem, 6vw, 2.4rem);
+        max-width: 100%
+      }
+
+      .faq-intro p {
+        max-width: 100%
+      }
+
+      .faq-q {
+        font-size: 17px;
+        padding: 8px 4px 8px 12px
+      }
+
+      .faq-icon {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+        font-size: 20px
+      }
+
+      .faq-item {
+        padding: 8px
+      }
+
+      .faq-a p {
+        padding: 14px 12px 8px;
+        font-size: 14px
       }
 
       .feat-card {
@@ -1720,7 +2333,7 @@
       }
 
       .stack-img {
-        min-height: 450px;
+        min-height: 320px;
         border-radius: 12px
       }
 
@@ -1735,8 +2348,26 @@
         gap: 40px
       }
 
-      .fg {
-        grid-template-columns: 1fr
+      .form-card {
+        grid-template-columns: 1fr;
+        min-height: 0;
+        gap: 32px;
+        padding: 40px 28px;
+        background-position: 68% center
+      }
+
+      .form-card::before {
+        background: linear-gradient(180deg, rgba(24, 3, 10, .76) 0%, rgba(24, 3, 10, .9) 100%)
+      }
+
+      .form-copy {
+        max-width: none
+      }
+
+      .form-panel {
+        max-width: 480px;
+        margin: 0 auto;
+        justify-self: center
       }
 
       .foot-grid {
@@ -1767,7 +2398,6 @@
 
     @media(max-width:500px) {
 
-      .stats,
       .why-grid,
       .foot-grid {
         grid-template-columns: 1fr
@@ -1775,6 +2405,20 @@
 
       .why-card {
         padding: 32px 22px 28px
+      }
+
+      .form-card {
+        padding: 32px 16px;
+        border-radius: 20px;
+        background-position: 72% center
+      }
+
+      .form-copy h2 {
+        font-size: 2rem
+      }
+
+      .form-panel {
+        padding: 20px 18px
       }
     }
   </style>
@@ -1793,7 +2437,6 @@
         <a href="#depoimentos">Depoimentos</a>
         <a href="#inscricao">Inscrição</a>
       </nav>
-      <a href="#inscricao" class="btn header-btn">Quero conhecer a Mentoria</a>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </header>
@@ -1813,9 +2456,8 @@
     <div class="hero-in">
       <div class="hero-text">
         <p class="label">PROSPERIDADE FEMININA</p>
-        <h1>Uma nova forma de prosperar começa quando você para de se abandonar no caminho.</h1>
-        <p>Uma jornada para mulheres que desejam crescer com consciência, espiritualidade prática e leveza — sem
-          continuar vivendo na força, no controle e no sacrifício.</p>
+        <h1>Prosperidade com mais leveza.</h1>
+        <p>Uma jornada para mulheres que querem prosperar com mais consciência, sem deixar de cuidar de si.</p>
         <div class="btns">
           <a href="#inscricao" class="btn btn-light">Quero conhecer a Mentoria</a>
           <a href="#caminhos" class="btn btn-light"
@@ -1835,68 +2477,112 @@
     </div>
   </section>
 
-  <!-- 2. About / pillars -->
-  <section class="about" id="pilares">
+  <!-- 2. Mentoria -->
+  <section class="classes" id="mentoria">
     <div class="wrap">
-      <div class="about-top">
-        <span class="pill">UMA NOVA POSSIBILIDADE</span>
-        <h2>Você não precisa escolher entre prosperar e ter paz.</h2>
-      </div>
-      <div class="stats">
-        <div class="stat">
-          <h3>01 · Consciência</h3>
-          <p>Perceber os padrões que continuam decidindo por você.</p>
+      <span class="pill">A MENTORIA</span>
+      <h2>Prosperidade é uma experiência integrada.</h2>
+      <p class="lead">Uma jornada para mulheres que querem crescer com consciência e levar essa mudança para a vida, o
+        trabalho e as relações.</p>
+      <div class="feat">
+        <div class="feat-card">
+          <div class="feat-bg" style="background-image:url('./images/mentoria01.avif')">
+          </div>
+          <div class="feat-body">
+            <h3>Consciência aplicada</h3>
+            <div class="feat-details">
+              <p>Olhe para os padrões e as crenças que influenciam suas escolhas e sua relação com a prosperidade.</p>
+              <a href="#inscricao" class="btn btn-light">Quero entender se a Mentoria é para mim</a>
+            </div>
+          </div>
         </div>
-        <div class="stat dark"
-          style="background-image:url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&q=80')">
-          <h3>02 · Leveza</h3>
-          <p>Crescer sem transformar esforço e exaustão em identidade.</p>
-        </div>
-        <div class="stat">
-          <h3>03 · Integração</h3>
-          <p>Unir espiritualidade, corpo, liderança e ação.</p>
-        </div>
-        <div class="stat dark"
-          style="background-image:url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&q=80')">
-          <h3>04 · Sustentação</h3>
-          <p>Criar mudanças que façam sentido na vida real.</p>
+        <div class="feat-card">
+          <div class="feat-bg" style="background-image:url('./images/mentoria02.avif')">
+          </div>
+          <div class="feat-body">
+            <h3>Expansão sustentada</h3>
+            <div class="feat-details">
+              <p>Leve novas escolhas para o trabalho, o dinheiro, as relações e a forma como você cuida de si.</p>
+              <a href="#inscricao" class="btn btn-light">Quero entender se a Mentoria é para mim</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 3. Mentoria -->
-  <section class="classes" id="mentoria">
+  <!-- 3. About / pillars -->
+  <section class="help" id="pilares">
     <div class="wrap">
-      <span class="pill">A MENTORIA</span>
-      <h2>Prosperidade é uma experiência integrada.</h2>
-      <p class="lead">A Mentoria Mariana Gusmão é uma jornada para mulheres que desejam expandir sua prosperidade sem
-        continuar vivendo na força, no controle e no sacrifício.</p>
-      <div class="feat">
-        <div class="feat-card">
-          <div class="feat-bg"
-            style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&q=80')">
-          </div>
-          <div class="feat-body">
-            <h3>Consciência aplicada</h3>
-            <div class="feat-details">
-              <p>Reconhecer padrões, crenças e histórias que influenciam suas escolhas e sua capacidade de receber.</p>
-              <a href="#inscricao" class="btn btn-light">Quero entender se a Mentoria é para mim</a>
-            </div>
-          </div>
+      <div class="help-head">
+        <div>
+          <span class="pill">UMA NOVA POSSIBILIDADE</span>
+          <h2>Você não precisa escolher entre prosperar e ter paz.</h2>
         </div>
-        <div class="feat-card">
-          <div class="feat-bg"
-            style="background-image:url('https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=1200&q=80')">
+        <p>Toda jornada começa com uma conversa. Estes são os pilares que sustentam a expansão se o seu momento não
+          estiver aqui, vamos olhar juntos.</p>
+      </div>
+      <div class="help-row">
+        <article class="help-panel is-active" tabindex="0">
+          <img class="help-img" src="images/help-01.avif" alt="Mulher escrevendo em um caderno à luz do sol" />
+          <div class="help-shade"></div>
+          <div class="help-tint"></div>
+          <span class="help-num">01</span>
+          <div class="help-closed">
+            <h3>Consciência</h3>
+            <span class="help-plus">+</span>
           </div>
-          <div class="feat-body">
-            <h3>Expansão sustentada</h3>
-            <div class="feat-details">
-              <p>Levar a transformação para liderança, dinheiro, relações, visibilidade, corpo e decisões concretas.</p>
-              <a href="#inscricao" class="btn btn-light">Quero entender se a Mentoria é para mim</a>
-            </div>
+          <div class="help-details">
+            <h3>Consciência</h3>
+            <p>Perceba os padrões que influenciam suas escolhas e descubra novas formas de agir.</p>
+            <div class="help-tags"><span>Presença</span><span>Clareza</span></div>
           </div>
-        </div>
+        </article>
+        <article class="help-panel" tabindex="0">
+          <img class="help-img" src="images/help-03.avif" alt="Mãos segurando uma xícara de chá quente" />
+          <div class="help-shade"></div>
+          <div class="help-tint"></div>
+          <span class="help-num">02</span>
+          <div class="help-closed">
+            <h3>Leveza</h3>
+            <span class="help-plus">+</span>
+          </div>
+          <div class="help-details">
+            <h3>Leveza</h3>
+            <p>Cresça sem fazer do cansaço uma rotina. Encontre um jeito mais leve de seguir.</p>
+            <div class="help-tags"><span>Pausa</span><span>Cuidado</span></div>
+          </div>
+        </article>
+        <article class="help-panel" tabindex="0">
+          <img class="help-img" src="images/help-02.avif" alt="Casal em um momento de conexão e escuta" />
+          <div class="help-shade"></div>
+          <div class="help-tint"></div>
+          <span class="help-num">03</span>
+          <div class="help-closed">
+            <h3>Integração</h3>
+            <span class="help-plus">+</span>
+          </div>
+          <div class="help-details">
+            <h3>Integração</h3>
+            <p>Una espiritualidade, corpo, liderança e ação no seu dia a dia.</p>
+            <div class="help-tags"><span>Corpo e espírito</span><span>Relações</span></div>
+          </div>
+        </article>
+        <article class="help-panel" tabindex="0">
+          <img class="help-img" src="images/help-04.avif" alt="Mulher descansando na grama com os olhos fechados" />
+          <div class="help-shade"></div>
+          <div class="help-tint"></div>
+          <span class="help-num">04</span>
+          <div class="help-closed">
+            <h3>Sustentação</h3>
+            <span class="help-plus">+</span>
+          </div>
+          <div class="help-details">
+            <h3>Sustentação</h3>
+            <p>Leve as mudanças para a vida real e construa novos caminhos no seu ritmo.</p>
+            <div class="help-tags"><span>Vida real</span><span>Longo prazo</span></div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -1909,14 +2595,13 @@
           <span class="pill">CAMINHOS DE EXPANSÃO</span>
           <h2>Escolha o espaço que conversa com o seu momento.</h2>
         </div>
-        <p>Diferentes portas de entrada para mulheres que desejam cultivar prosperidade com mais consciência, liberdade
-          e leveza.</p>
+        <p>Conheça os espaços de acompanhamento e desenvolvimento e escolha o que combina com o seu momento.</p>
       </div>
       <div class="stack">
         <div class="stack-card">
           <div class="stack-body">
             <h3>Diagnóstico de Prosperidade</h3>
-            <p>Uma conversa inicial para compreender seu momento, seus desafios e o caminho mais coerente para você.</p>
+            <p>Uma conversa para entender seu momento, seus desafios e qual caminho pode fazer sentido para você.</p>
             <ul>
               <li>Conversa individual</li>
               <li>Clareza sobre o momento atual</li>
@@ -1924,15 +2609,14 @@
             </ul>
             <a href="#inscricao" class="btn btn-dark">Agendar diagnóstico</a>
           </div>
-          <div class="stack-img"
-            style="background-image:url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=700&q=80')">
+          <div class="stack-img" style="background-image:url('./images/caminhos01.avif')">
           </div>
         </div>
         <div class="stack-card">
           <div class="stack-body">
             <h3>SoulPróspera</h3>
-            <p>Uma comunidade para mulheres que desejam cultivar prosperidade com mais leveza, consciência e liberdade.
-            </p>
+            <p>Um espaço para mulheres que querem conversar sobre prosperidade, compartilhar experiências e crescer
+              juntas.</p>
             <ul>
               <li>Conteúdos guiados</li>
               <li>Comunidade de apoio</li>
@@ -1940,15 +2624,14 @@
             </ul>
             <a href="#inscricao" class="btn btn-dark">Conhecer SoulPróspera</a>
           </div>
-          <div class="stack-img"
-            style="background-image:url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700&q=80')">
+          <div class="stack-img" style="background-image:url('./images/caminhos02.avif')">
           </div>
         </div>
         <div class="stack-card">
           <div class="stack-body">
             <h3>Rica de Alma</h3>
-            <p>Uma experiência de imersão para empresárias que desejam integrar espiritualidade, liderança e
-              consciência.</p>
+            <p>Uma experiência para empresárias que querem unir espiritualidade, liderança e prosperidade nos negócios.
+            </p>
             <ul>
               <li>Experiência imersiva</li>
               <li>Liderança consciente</li>
@@ -1956,8 +2639,7 @@
             </ul>
             <a href="#inscricao" class="btn btn-dark">Saber mais</a>
           </div>
-          <div class="stack-img"
-            style="background-image:url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=700&q=80')"></div>
+          <div class="stack-img" style="background-image:url('./images/caminhos03.avif')"></div>
         </div>
       </div>
     </div>
@@ -1967,17 +2649,13 @@
   <section class="why" id="porque">
     <div class="wrap">
       <div class="why-card">
-        <div class="why-bg on"
-          style="background-image:url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1600&q=80')">
+        <div class="why-bg on" style="background-image:url('./images/why_01.avif')">
         </div>
-        <div class="why-bg"
-          style="background-image:url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1600&q=80')">
+        <div class="why-bg" style="background-image:url('./images/why_02.avif')">
         </div>
-        <div class="why-bg"
-          style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1600&q=80')">
+        <div class="why-bg" style="background-image:url('./images/why_03.avif')">
         </div>
-        <div class="why-bg"
-          style="background-image:url('https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=1600&q=80')">
+        <div class="why-bg" style="background-image:url('./images/why_04.avif')">
         </div>
         <div class="why-head">
           <span class="pill">POR QUE MARIANA</span>
@@ -2038,83 +2716,149 @@
   </section>
 
   <!-- 6. How -->
-  <section class="how">
-    <div class="wrap how-grid">
-      <div>
+  <section class="how" id="como-funciona">
+    <div class="wrap how-wrap">
+      <div class="how-head">
         <span class="pill">COMO FUNCIONA</span>
         <h2>Um caminho simples para começar sua expansão.</h2>
-        <p class="lead">Três passos claros para compreender seu momento e iniciar com presença.</p>
+        <p class="lead">Comece contando um pouco sobre o que você busca. Assim, Mariana pode entender seu momento e
+          conversar com você sobre os próximos passos.</p>
         <a href="#inscricao" class="btn btn-dark">Quero começar</a>
       </div>
-      <div class="steps">
-        <div class="step"><span class="step-n">01</span>
-          <div>
-            <h4>Conte seu momento</h4>
-            <p>Preencha o formulário e compartilhe o que você deseja transformar e sustentar.</p>
+      <div class="how-cards">
+        <article class="how-card">
+          <canvas class="how-canvas" role="img" aria-label="Mariana em um momento de ritual e presença"
+            data-img="./images/carta01.avif"></canvas>
+          <span class="how-num">01</span>
+          <div class="how-details">
+            <h3>Conte seu momento</h3>
+            <p>Preencha o formulário e conte o que você gostaria de mudar ou desenvolver.</p>
           </div>
-        </div>
-        <div class="step"><span class="step-n">02</span>
-          <div>
-            <h4>Faça o diagnóstico</h4>
-            <p>Mariana ou sua equipe compreenderá seu momento e avaliará o alinhamento com a Mentoria.</p>
+        </article>
+        <article class="how-card">
+          <canvas class="how-canvas" role="img" aria-label="Mariana em um momento de ritual e presença"
+            data-img="./images/carta02.avif"></canvas>
+          <span class="how-num">02</span>
+          <div class="how-details">
+            <h3>Faça o diagnóstico</h3>
+            <p>Converse com Mariana para entender se a proposta combina com o que você busca.</p>
           </div>
-        </div>
-        <div class="step"><span class="step-n">03</span>
-          <div>
-            <h4>Comece sua jornada</h4>
-            <p>Se fizer sentido para você, receberá as orientações para iniciar com clareza e presença.</p>
+        </article>
+        <article class="how-card">
+          <canvas class="how-canvas" role="img" aria-label="Mariana em um momento de ritual e presença"
+            data-img="./images/carta03.avif"></canvas>
+          <span class="how-num">03</span>
+          <div class="how-details">
+            <h3>Comece sua jornada</h3>
+            <p>Se fizer sentido para você, Mariana explicará como dar o próximo passo.</p>
           </div>
-        </div>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- 7. Pricing -->
-  <section class="pricing">
+  <!-- 7. Why choose -->
+  <section class="why-us">
     <div class="wrap">
-      <div class="price-head">
-        <div>
-          <span class="pill">ENCONTRE O SEU PRÓXIMO PASSO</span>
-          <h2>Uma jornada que respeita o seu momento.</h2>
-        </div>
-        <p>Escolha o caminho que conversa com o que você precisa agora.</p>
+      <div class="why-us-head" style="--reveal-y:50px">
+        <h2>Por que escolher a Mariana para a sua jornada.</h2>
+        <p>Uma jornada para mulheres que desejam prosperar com consciência, presença e sustentação real.</p>
       </div>
-      <div class="price-grid">
-        <div class="plan">
-          <p class="tag">Diagnóstico</p>
-          <h3>Diagnóstico de Prosperidade</h3>
-          <p class="sub">Comece com clareza.</p>
-          <p class="price">[Investimento a confirmar]</p>
-          <ul>
-            <li>Conversa inicial</li>
-            <li>Mapeamento do momento</li>
-            <li>Orientação de próximos passos</li>
-            <li>Clareza personalizada</li>
-          </ul>
-          <a href="#inscricao" class="btn btn-dark">Agendar diagnóstico</a>
+      <div class="why-us-grid">
+        <div class="why-us-col">
+          <article class="why-us-card">
+            <span class="why-us-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <circle cx="9" cy="12" r="6" />
+                <circle cx="15" cy="12" r="6" />
+              </svg>
+            </span>
+            <div class="why-us-copy">
+              <h3>Sessões guiadas</h3>
+              <p>Encontros fáceis de acompanhar, para todos os níveis, que ajudam você a manter a constância e evoluir
+                com foco e progresso estável.</p>
+            </div>
+          </article>
+          <article class="why-us-card">
+            <span class="why-us-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6S2.5 12 2.5 12z" />
+                <circle cx="12" cy="12" r="2.6" />
+              </svg>
+            </span>
+            <div class="why-us-copy">
+              <h3>Equilíbrio de mente e corpo</h3>
+              <p>Desenvolva clareza mental, presença e força juntas, criando uma rotina mais saudável e equilibrada
+                para o seu bem-estar.</p>
+            </div>
+          </article>
         </div>
-        <div class="plan dark">
-          <p class="tag">Mentoria</p>
-          <h3>Mentoria Mariana Gusmão</h3>
-          <p class="sub">Expanda com sustentação.</p>
-          <p class="price">[Investimento a confirmar]</p>
-          <ul>
-            <li>Jornada estruturada</li>
-            <li>Consciência e integração</li>
-            <li>Ação alinhada à sua nova fase</li>
-          </ul>
-          <a href="#inscricao" class="btn">Candidatar-me à Mentoria</a>
+        <div class="why-us-center" style="--reveal-y:50px">
+          <canvas class="why-canvas" role="img" aria-label="Mariana em um momento de ritual e presença"></canvas>
+        </div>
+        <div class="why-us-col">
+          <article class="why-us-card">
+            <span class="why-us-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                  d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" />
+              </svg>
+            </span>
+            <div class="why-us-copy">
+              <h3>Agenda flexível</h3>
+              <p>Viva o processo no seu tempo, com encontros que se encaixam na sua rotina e facilitam a constância e
+                a motivação.</p>
+            </div>
+          </article>
+          <article class="why-us-card">
+            <span class="why-us-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 21v-9" />
+                <path d="M12 15c0-5-4-8-9-8 0 5 4 8 9 8z" />
+                <path d="M12 12c0-5.5 4-9 9-9 0 5.5-4 9-9 9z" />
+              </svg>
+            </span>
+            <div class="why-us-copy">
+              <h3>Resultados reais</h3>
+              <p>Construa consistência e perceba progresso a cada encontro, alcançando bem-estar, força e equilíbrio
+                duradouros.</p>
+            </div>
+          </article>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 8. Depoimentos -->
+  <!-- 8. About -->
+  <section class="team" id="sobre">
+    <div class="wrap team-grid">
+      <div class="team-img">
+        <img src="images/mari01.avif" alt="Mariana Gusmão" loading="lazy" />
+      </div>
+      <div>
+        <span class="pill">SOBRE MARIANA</span>
+        <h2>Prosperar não precisa custar a sua paz.</h2>
+        <p>Mariana Gusmão acompanha mulheres que querem construir uma relação mais consciente com a prosperidade.</p>
+        <p>Seu trabalho integra espiritualidade prática, escolhas do dia a dia e desenvolvimento pessoal, sempre
+          respeitando o momento de cada mulher.</p>
+        <p class="note">[Inserir formação e especializações confirmadas]</p>
+        <p class="note">[Inserir trajetória profissional confirmada]</p>
+        <a href="#inscricao" class="btn btn-dark">Conhecer a abordagem de Mariana</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Depoimentos -->
   <section class="testi" id="depoimentos">
     <div class="wrap">
       <div class="testi-head">
         <h2>O que nossas alunas dizem sobre a sua jornada de prosperidade</h2>
-        <p>Relatos de mulheres que estão crescendo com mais consciência, leveza e prosperidade — sem abrir mão de si
+        <p>Relatos de mulheres que estão crescendo com mais consciência, leveza e prosperidade. Sem abrir mão de si
           mesmas.</p>
       </div>
       <!-- Substitua os depoimentos abaixo por relatos reais e autorizados -->
@@ -2253,7 +2997,7 @@
                   loading="lazy" />
                 <div class="testi-who">
                   <p class="testi-name">Renata A.</p>
-                  <p class="testi-stars" aria-label="5 de 5 estrelas">★★★★★</p>
+                  <p class="testi-stars" aria-label="5 de 5 estrelas">★</p>
                 </div>
               </div>
               <p class="testi-text">Hoje recebo mais, negocio melhor e descanso sem culpa. A prosperidade deixou de ser
@@ -2291,71 +3035,58 @@
     </div>
   </section>
 
-  <!-- 9. About -->
-  <section class="team" id="sobre">
-    <div class="wrap team-grid">
-      <div class="team-img">
-        <img src="images/mari01.avif" alt="Mariana Gusmão" loading="lazy" />
-      </div>
-      <div>
-        <span class="pill">SOBRE MARIANA</span>
-        <h2>Prosperar não precisa custar a sua paz.</h2>
-        <p>Mariana Gusmão é mentora e facilitadora de jornadas de prosperidade feminina. Seu trabalho une consciência,
-          espiritualidade prática, liderança e processos de transformação para mulheres que desejam crescer sem
-          permanecer presas ao sacrifício.</p>
-        <p>A partir de uma linguagem próxima e profunda, conduz mulheres a observarem os padrões que atravessam suas
-          escolhas, relacionamentos, corpo e relação com a prosperidade.</p>
-        <p class="note">[Inserir formação e especializações confirmadas]</p>
-        <p class="note">[Inserir trajetória profissional confirmada]</p>
-        <a href="#inscricao" class="btn btn-dark">Conhecer a abordagem de Mariana</a>
-      </div>
-    </div>
-  </section>
-
   <!-- 10. FAQ -->
-  <section class="faq">
-    <div class="wrap">
-      <span class="pill">DÚVIDAS FREQUENTES</span>
-      <h2>Tudo o que você precisa saber antes de começar.</h2>
+  <section class="faq" id="faq">
+    <div class="wrap faq-grid">
+      <div class="faq-intro">
+        <span class="pill">DÚVIDAS FREQUENTES</span>
+        <h2>Tudo o que você precisa saber antes de começar.</h2>
+        <p>Encontre respostas claras sobre a Mentoria, o diagnóstico e os próximos passos da sua jornada.</p>
+        <a href="#inscricao" class="btn btn-dark">Falar com Mariana</a>
+      </div>
       <div class="faq-list">
         <div class="faq-item">
-          <button class="faq-q" type="button">A Mentoria é terapia? <span>+</span></button>
+          <button class="faq-q" type="button">A Mentoria é terapia? <span class="faq-icon"
+              aria-hidden="true">+</span></button>
           <div class="faq-a">
-            <p>Não. É uma jornada de consciência, integração e ação. Não substitui acompanhamento médico, psicológico,
-              jurídico ou financeiro.</p>
+            <p>Não. A Mentoria é um processo de desenvolvimento pessoal e não substitui acompanhamento médico ou
+              psicológico.</p>
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" type="button">Preciso já trabalhar com espiritualidade? <span>+</span></button>
+          <button class="faq-q" type="button">Preciso já trabalhar com espiritualidade? <span class="faq-icon"
+              aria-hidden="true">+</span></button>
           <div class="faq-a">
-            <p>Não. É importante ter abertura para olhar para si com profundidade, mas você não precisa seguir uma
-              religião ou prática específica.</p>
+            <p>Não. Você não precisa seguir uma religião ou ter experiência com práticas espirituais.</p>
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" type="button">A Mentoria é online ou presencial? <span>+</span></button>
+          <button class="faq-q" type="button">A Mentoria é online ou presencial? <span class="faq-icon"
+              aria-hidden="true">+</span></button>
           <div class="faq-a">
             <p>[Confirmar formato atual antes da publicação.]</p>
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" type="button">Como sei se este é o momento certo? <span>+</span></button>
+          <button class="faq-q" type="button">Como sei se este é o momento certo? <span class="faq-icon"
+              aria-hidden="true">+</span></button>
           <div class="faq-a">
-            <p>O diagnóstico inicial ajuda a compreender seu momento, seus objetivos e o alinhamento com a proposta.</p>
+            <p>A conversa inicial ajuda você e Mariana a entenderem se a proposta combina com seu momento.</p>
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" type="button">A Mentoria promete resultados financeiros? <span>+</span></button>
+          <button class="faq-q" type="button">A Mentoria promete resultados financeiros? <span class="faq-icon"
+              aria-hidden="true">+</span></button>
           <div class="faq-a">
-            <p>Não há promessa de resultado financeiro garantido. A jornada trabalha consciência, padrões, decisões,
-              liderança e sustentação pessoal.</p>
+            <p>Não há garantia de resultados financeiros. A proposta é apoiar seu desenvolvimento e suas escolhas.</p>
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" type="button">Como faço minha inscrição? <span>+</span></button>
+          <button class="faq-q" type="button">Como faço minha inscrição? <span class="faq-icon"
+              aria-hidden="true">+</span></button>
           <div class="faq-a">
-            <p>Preencha o formulário. As respostas serão analisadas e você receberá as próximas orientações caso exista
-              alinhamento.</p>
+            <p>Preencha o formulário para compartilhar seu momento. Mariana entrará em contato para conversar sobre os
+              próximos passos.</p>
           </div>
         </div>
       </div>
@@ -2365,33 +3096,50 @@
   <!-- 11. Form -->
   <section class="form-sec" id="inscricao">
     <div class="wrap">
-      <span class="pill">INSCRIÇÃO</span>
-      <h2>Conte seu momento.</h2>
-      <p class="lead">Mariana ou sua equipe entrará em contato com os próximos passos.</p>
-      <div class="form-box">
-        <form id="form" onsubmit="return send(event)">
-          <div class="fg">
-            <div><label>Nome completo</label><input name="nome" required /></div>
-            <div><label>E-mail</label><input type="email" name="email" required /></div>
-            <div><label>WhatsApp</label><input name="whatsapp" required /></div>
-            <div><label>Cidade e país</label><input name="cidade" required /></div>
-            <div class="full"><label>Profissão ou negócio</label><input name="profissao" required /></div>
-            <div class="full"><label>Qual é o seu principal desafio hoje?</label><textarea name="desafio"
-                required></textarea></div>
-            <div class="full"><label>O que você deseja sustentar nos próximos 6 a 12 meses?</label><textarea
-                name="sustentar" required></textarea></div>
-            <div class="full"><label>O que você já tentou?</label><textarea name="tentou"></textarea></div>
-            <div class="full"><label>Por que este momento é importante para você?</label><textarea name="momento"
-                required></textarea></div>
-            <div class="full"><label>Como conheceu a Mariana?</label><input name="conheceu" /></div>
+      <div class="form-card">
+        <div class="form-copy">
+          <span class="form-label">Inscrição</span>
+          <h2>Conte seu momento.</h2>
+          <p>Conte um pouco sobre o que você está vivendo e o que gostaria de trabalhar.</p>
+          <div class="form-call">
+            Prefere falar direto?<br />
+            <a href="https://wa.me/5511991189007" target="_blank" rel="noopener">(11) 99999-9999</a>
           </div>
-          <label class="check"><input type="checkbox" required /> Concordo em ser contactada e li a política de
-            privacidade.</label>
-          <button type="submit" class="btn btn-dark">Quero me candidatar à Mentoria</button>
-        </form>
-        <div class="ok" id="ok">
-          <h3>Obrigada por compartilhar seu momento.</h3>
-          <p>Mariana ou sua equipe entrará em contato com os próximos passos, caso exista alinhamento com a jornada.</p>
+        </div>
+        <div class="form-panel">
+          <div class="form-panel-head">
+            <span class="avatar" aria-hidden="true">MG</span>
+            <div>
+              <h3>Vamos conversar</h3>
+              <p>Retorno em até um dia útil.</p>
+            </div>
+          </div>
+          <form id="form" onsubmit="return send(event)">
+            <div class="fg">
+              <div>
+                <label for="nome">Nome</label>
+                <input id="nome" name="nome" type="text" placeholder="Seu nome" autocomplete="given-name"
+                  pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]+" title="Use apenas letras" minlength="2" required />
+              </div>
+              <div>
+                <label for="telefone">Telefone</label>
+                <input id="telefone" name="telefone" type="tel" inputmode="numeric" placeholder="(11) 99118-9007"
+                  autocomplete="tel" maxlength="15" pattern="\(\d{2}\) \d{5}-\d{4}" title="Digite DDD + número"
+                  required />
+              </div>
+              <div>
+                <label for="mensagem">Mensagem</label>
+                <textarea id="mensagem" name="mensagem" placeholder="Conte um pouco sobre o seu momento..."
+                  required></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-gold btn--sm">Enviar mensagem</button>
+            <p class="form-note">Seus dados ficam em sigilo.</p>
+          </form>
+          <div class="ok" id="ok">
+            <h3>Obrigada por compartilhar um pouco do seu momento.</h3>
+            <p>Mariana entrará em contato para conversar com você.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -2401,7 +3149,7 @@
   <section class="final">
     <div class="final-bg"></div>
     <div class="wrap">
-      <h2>Você não precisa continuar se diminuindo para caber na vida que já conhece.</h2>
+      <h2>Você pode buscar seus objetivos sem deixar de cuidar de si.</h2>
       <p>Existe uma forma mais leve, consciente e íntegra de avançar.</p>
       <a href="#inscricao" class="btn btn-light">Quero conhecer a Mentoria</a>
     </div>
@@ -2412,7 +3160,7 @@
       <div class="foot-grid">
         <div>
           <div class="foot-brand">Mariana Gusmão</div>
-          <p>Prosperidade feminina sem sacrifício. Leveza é o novo sucesso.</p>
+          <p>Prosperidade com consciência e mais leveza.</p>
           <a href="https://instagram.com/eumarianagusmao" target="_blank" rel="noopener">@eumarianagusmao</a>
         </div>
         <div>
@@ -2461,6 +3209,24 @@
         if (!o) i.classList.add('open');
       };
     });
+    const helpPanels = [...document.querySelectorAll('.help-panel')];
+    const helpRow = document.querySelector('.help-row');
+    const setHelpPanel = index => {
+      helpPanels.forEach((panel, i) => panel.classList.toggle('is-active', i === index));
+    };
+    helpPanels.forEach((panel, i) => {
+      const activate = () => {
+        if (innerWidth > 1024) setHelpPanel(i);
+      };
+      panel.addEventListener('mouseenter', activate);
+      panel.addEventListener('focus', activate);
+      panel.addEventListener('click', activate);
+    });
+    if (helpRow) {
+      helpRow.addEventListener('mouseleave', () => {
+        if (innerWidth > 1024) setHelpPanel(0);
+      });
+    }
     const whyItems = [...document.querySelectorAll('.why-item')];
     const whyBgs = [...document.querySelectorAll('.why-bg')];
     whyItems.forEach((item, i) => {
@@ -2472,6 +3238,116 @@
       item.addEventListener('focus', activate);
       item.addEventListener('click', activate);
     });
+    const howCards = [...document.querySelectorAll('.how-card')];
+    const howStack = document.querySelector('.how-cards');
+    const howCanvases = [...document.querySelectorAll('.how-canvas')];
+    const whyCanvases = [...document.querySelectorAll('.why-canvas')];
+    const seqTargets = [document.querySelector('.why-us-center')].filter(Boolean);
+    const visibleSeq = new Set();
+    const howFrames = Array.from({ length: 52 }, (_, i) => `images/mari03_${String(i).padStart(3, '0')}.webp`);
+    const howImages = [];
+    let howQueued = false;
+    let howVisible = false;
+    let howFrame = 0;
+    let howLast = 0;
+
+    function sizeHowCanvas(canvas) {
+      const card = canvas.parentElement;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.max(1, Math.round(card.offsetWidth * dpr));
+      canvas.height = Math.max(1, Math.round(card.offsetHeight * dpr));
+    }
+
+    function drawCover(canvas, img) {
+      if (!img || !img.complete || !img.naturalWidth) return;
+      if (!canvas.width) sizeHowCanvas(canvas);
+      const cw = canvas.width, ch = canvas.height;
+      const ctx = canvas.getContext('2d');
+      const ratio = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const dw = img.naturalWidth * ratio, dh = img.naturalHeight * ratio;
+      const dx = (cw - dw) / 2;
+      const dy = (ch - dh) * .45;
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, dx, dy, dw, dh);
+    }
+
+    const howStatic = howCanvases.map(canvas => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = () => drawCover(canvas, img);
+      img.src = canvas.dataset.img;
+      return img;
+    });
+
+    function drawHowFrame(index) {
+      const img = howImages[index];
+      whyCanvases.forEach(canvas => drawCover(canvas, img));
+    }
+
+    function sizeHowCanvases() {
+      howCanvases.forEach((canvas, i) => {
+        sizeHowCanvas(canvas);
+        drawCover(canvas, howStatic[i]);
+      });
+      whyCanvases.forEach(sizeHowCanvas);
+      drawHowFrame(howFrame);
+    }
+
+    howFrames.forEach((src, i) => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = () => { if (i === 0) drawHowFrame(0) };
+      img.src = src;
+      howImages[i] = img;
+    });
+
+    function playHow(now) {
+      requestAnimationFrame(playHow);
+      if (!howVisible) return;
+      if (now - howLast > 83) {
+        howLast = now;
+        howFrame = (howFrame + 1) % howFrames.length;
+        drawHowFrame(howFrame);
+      }
+    }
+
+    if (!reduceMotion) {
+      const howObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) visibleSeq.add(entry.target);
+          else visibleSeq.delete(entry.target);
+        });
+        howVisible = visibleSeq.size > 0;
+      }, { rootMargin: '200px' });
+      seqTargets.forEach(target => howObserver.observe(target));
+      requestAnimationFrame(playHow);
+    }
+
+    function updateHow() {
+      howQueued = false;
+      if (!howStack || !howCards.length || reduceMotion) return;
+      const top = parseFloat(getComputedStyle(howCards[0]).top) || 80;
+      const rect = howStack.getBoundingClientRect();
+      const start = scrollY + rect.top - top;
+      const travel = Math.max(howStack.offsetHeight - innerHeight + top + 60, 1);
+      const p = Math.min(Math.max((scrollY - start) / travel, 0), 1);
+      const scale = 1 - .27 * p;
+      howCards.forEach((card, i) => {
+        const angle = (i % 2 ? -1 : 1) * (3.2 * p);
+        card.style.transform = `scale(${scale.toFixed(4)}) rotate(${angle.toFixed(3)}deg)`;
+      });
+    }
+    function queueHow() {
+      if (!howQueued) {
+        howQueued = true;
+        requestAnimationFrame(updateHow);
+      }
+    }
+    window.addEventListener('scroll', queueHow, { passive: true });
+    window.addEventListener('resize', () => { sizeHowCanvases(); queueHow() });
+    sizeHowCanvases();
+    drawHowFrame(0);
+    queueHow();
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         const href = a.getAttribute('href');
@@ -2501,23 +3377,22 @@
     window.addEventListener('resize', updateSpy);
     const revealGroups = [
       ['.hero-text > *', 90],
-      ['.about-top > *', 80],
-      ['.stat', 70],
+      ['.help-head > *', 60],
+      ['.help-row', 0],
       ['.classes .pill, .classes h2, .classes .lead', 70],
       ['.feat-card', 110],
       ['.prog-head > *', 80],
       ['.stack', 0],
       ['.why-card', 0],
-      ['.how-grid > div:first-child', 0],
-      ['.step', 80],
-      ['.price-head > *', 80],
-      ['.plan', 110],
+      ['.how-head > *', 80],
+      ['.why-us-head', 0],
+      ['.why-us-center', 0],
       ['.testi-head > *', 80],
       ['.team-grid > *', 0],
-      ['.faq .pill, .faq h2', 80],
+      ['.faq-intro > *', 80],
       ['.faq-item', 40],
-      ['.form-sec .pill, .form-sec h2, .form-sec .lead', 70],
-      ['.form-box', 0],
+      ['.form-copy > *', 80],
+      ['.form-panel', 0],
       ['.final h2, .final p, .final .btn', 90]
     ];
     const revealEls = [];
@@ -2615,6 +3490,22 @@
       } else {
         play();
       }
+    }
+    const nomeInput = document.getElementById('nome');
+    if (nomeInput) {
+      nomeInput.addEventListener('input', () => {
+        nomeInput.value = nomeInput.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, '');
+      });
+    }
+    const telInput = document.getElementById('telefone');
+    if (telInput) {
+      const maskPhone = () => {
+        const d = telInput.value.replace(/\D/g, '').slice(0, 11);
+        if (d.length > 6) telInput.value = '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+        else if (d.length > 2) telInput.value = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+        else telInput.value = d ? '(' + d : '';
+      };
+      telInput.addEventListener('input', maskPhone);
     }
     function send(e) { e.preventDefault(); document.getElementById('form').style.display = 'none'; document.getElementById('ok').classList.add('show'); return false }
   </script>
