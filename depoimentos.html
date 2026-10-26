@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deixe seu depoimento | Mariana Gusmão</title>
+    <meta name="description"
+        content="Compartilhe como foi a sua experiência com a Mariana Gusmão. Seu depoimento pode inspirar outras mulheres." />
+    <meta property="og:title" content="Deixe seu depoimento | Mariana Gusmão" />
+    <meta property="og:description"
+        content="Compartilhe como foi a sua experiência com a Mariana Gusmão. Seu depoimento pode inspirar outras mulheres." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #340310;
+            --burgundy: #340310;
+            --gold: #af8a36;
+            --white: #fff;
+            --text: #340310;
+            --muted: #6b5550;
+            --max: 1100px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: Montserrat, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            font-weight: 400
+        }
+
+        img {
+            max-width: 100%;
+            display: block
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        ul {
+            list-style: none
+        }
+
+        button,
+        input,
+        textarea {
+            font-family: inherit
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: opacity .2s, transform .2s, box-shadow .2s;
+        }
+
+        .btn:hover {
+            opacity: .9;
+            transform: scale(1.02);
+            box-shadow: 0 10px 24px rgba(52, 3, 16, .14)
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: #fff
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .32);
+            color: #fff
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .24);
+            color: rgba(255, 255, 255, .88)
+        }
+
+        /* Bloco único, como a inscrição da home */
+        .form-sec {
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            min-height: 100svh;
+            padding: 28px 0;
+            background: var(--bg)
+        }
+
+        .form-card {
+            position: relative;
+            isolation: isolate;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 400px;
+            align-items: center;
+            gap: 40px;
+            min-height: 0;
+            padding: 32px 40px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #1c070d url("images/mari02.avif") 62% center/cover no-repeat;
+            box-shadow: 0 24px 60px rgba(52, 3, 16, .14);
+        }
+
+        .form-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(90deg, rgba(24, 3, 10, .9) 0%, rgba(24, 3, 10, .68) 46%, rgba(24, 3, 10, .52) 100%);
+        }
+
+        .form-copy {
+            color: #fff;
+            max-width: 430px
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 14px
+        }
+
+        .form-label::before {
+            content: "";
+            width: 36px;
+            height: 1px;
+            background: var(--gold);
+            opacity: .7
+        }
+
+        .form-copy h2 {
+            font-family: "Cinzel Decorative", serif;
+            font-weight: 400;
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            line-height: 1.18;
+            margin-bottom: 14px
+        }
+
+        .form-copy>p {
+            color: rgba(255, 255, 255, .78);
+            font-size: .92rem;
+            line-height: 1.65;
+            max-width: 370px;
+            margin-bottom: 18px
+        }
+
+        .form-points {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 22px
+        }
+
+        .form-points li {
+            position: relative;
+            padding-left: 18px;
+            font-size: .82rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, .72)
+        }
+
+        .form-points li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold)
+        }
+
+        .form-call {
+            font-size: .85rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, .68)
+        }
+
+        .form-call a {
+            color: #fff;
+            border-bottom: 1px solid rgba(175, 138, 54, .8);
+            padding-bottom: 2px;
+            transition: color .2s, border-color .2s
+        }
+
+        .form-call a:hover {
+            color: var(--gold);
+            border-color: var(--gold)
+        }
+
+        .form-panel {
+            width: 100%;
+            max-width: 400px;
+            justify-self: end;
+            padding: 22px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            border-radius: 20px;
+            background: rgba(42, 8, 18, .78);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, .24);
+            color: #fff
+        }
+
+        .form-panel-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 14px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, .12)
+        }
+
+        .avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            flex: none;
+            border: 1px solid rgba(175, 138, 54, .6);
+            border-radius: 50%;
+            background: rgba(175, 138, 54, .14);
+            font-family: "Cinzel Decorative", serif;
+            font-size: 13px;
+            color: var(--gold)
+        }
+
+        .form-panel-head h3 {
+            font-family: Montserrat, sans-serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 2px
+        }
+
+        .form-panel-head p {
+            font-size: 11.5px;
+            color: rgba(255, 255, 255, .6)
+        }
+
+        .fg {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .fg label {
+            display: block;
+            font-size: 11.5px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .65);
+            margin-bottom: 4px
+        }
+
+        .fg .hint {
+            font-weight: 400;
+            color: rgba(255, 255, 255, .4);
+            font-size: 11px
+        }
+
+        .fg input,
+        .fg textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid rgba(255, 255, 255, .16);
+            border-radius: 9px;
+            background: rgba(255, 255, 255, .07);
+            color: #fff;
+            font-size: 13px;
+            transition: border-color .25s, box-shadow .25s, background .25s
+        }
+
+        .fg input::placeholder,
+        .fg textarea::placeholder {
+            color: rgba(255, 255, 255, .4)
+        }
+
+        .fg input:focus,
+        .fg textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, .1);
+            box-shadow: 0 0 0 3px rgba(175, 138, 54, .18)
+        }
+
+        .fg textarea {
+            min-height: 78px;
+            resize: vertical;
+            line-height: 1.55
+        }
+
+        .field input[type="file"] {
+            padding: 7px 10px;
+            font-size: 11.5px;
+            color: rgba(255, 255, 255, .7);
+            cursor: pointer
+        }
+
+        .field input[type="file"]::file-selector-button {
+            margin-right: 10px;
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            font-size: 11.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .2s, border-color .2s
+        }
+
+        .field input[type="file"]::file-selector-button:hover {
+            background: rgba(175, 138, 54, .22);
+            border-color: rgba(175, 138, 54, .55)
+        }
+
+        .file-hint {
+            margin-top: 5px;
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, .42);
+            line-height: 1.4
+        }
+
+        .photo-preview {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            padding: 7px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .05)
+        }
+
+        .photo-preview img {
+            width: 46px;
+            height: 46px;
+            flex: none;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid rgba(175, 138, 54, .45)
+        }
+
+        .photo-meta {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 3px
+        }
+
+        .photo-name {
+            font-size: 11.5px;
+            color: rgba(255, 255, 255, .72);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .photo-remove {
+            align-self: flex-start;
+            padding: 0;
+            border: none;
+            background: none;
+            color: var(--gold);
+            font-size: 11px;
+            text-decoration: underline;
+            cursor: pointer
+        }
+
+        .photo-remove:hover {
+            color: #fff
+        }
+
+        .counter {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, .42);
+            margin-top: 3px
+        }
+
+        .consents {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px
+        }
+
+        .consents label {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            font-size: 11px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, .62);
+            cursor: pointer
+        }
+
+        .consents input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            flex: none;
+            margin-top: 2px;
+            accent-color: var(--gold);
+            cursor: pointer
+        }
+
+        .form-error {
+            margin-top: 10px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: rgba(255, 120, 110, .12);
+            border: 1px solid rgba(255, 140, 130, .28);
+            color: #ffb7b1;
+            font-size: 11.5px;
+            line-height: 1.4
+        }
+
+        .form-panel .btn[type="submit"] {
+            width: auto;
+            margin: 14px 0 0;
+            padding: 12px 26px;
+            background: var(--gold);
+            color: #2b0713;
+            font-weight: 600
+        }
+
+        .form-note {
+            margin-top: 8px;
+            text-align: center;
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, .48);
+            line-height: 1.5
+        }
+
+        .ok {
+            text-align: center;
+            padding: 10px 4px 4px
+        }
+
+        .ok:focus {
+            outline: none
+        }
+
+        .ok-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(175, 138, 54, .6);
+            background: rgba(175, 138, 54, .14);
+            font-family: "Cinzel Decorative", serif;
+            color: var(--gold);
+            font-size: 18px
+        }
+
+        .ok h3 {
+            font-family: "Cinzel Decorative", serif;
+            font-weight: 400;
+            font-size: 1.15rem;
+            line-height: 1.35;
+            margin-bottom: 8px;
+            color: #fff
+        }
+
+        .ok p {
+            font-size: .85rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, .7);
+            margin-bottom: 14px
+        }
+
+        .ok-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .ok-actions .btn {
+            width: 100%
+        }
+
+        .ok-hint {
+            margin-top: 14px !important;
+            margin-bottom: 0 !important;
+            font-size: 11px !important;
+            color: rgba(255, 255, 255, .48) !important
+        }
+
+        .link-back {
+            margin-top: 18px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, .55);
+            font-size: 12px;
+            text-decoration: underline;
+            cursor: pointer
+        }
+
+        .link-back:hover {
+            color: #fff
+        }
+
+        .honeypot {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden
+        }
+
+        [hidden] {
+            display: none !important
+        }
+
+        @media(max-width:1024px) {
+            .form-card {
+                grid-template-columns: minmax(0, 1fr) 420px;
+                gap: 36px;
+                padding: 40px
+            }
+        }
+
+        @media(max-width:900px) {
+            .form-card {
+                grid-template-columns: 1fr;
+                min-height: 0;
+                gap: 32px;
+                padding: 40px 28px;
+                background-position: 68% center
+            }
+
+            .form-card::before {
+                background: linear-gradient(180deg, rgba(24, 3, 10, .76) 0%, rgba(24, 3, 10, .92) 100%)
+            }
+
+            .form-copy {
+                max-width: none
+            }
+
+            .form-copy>p {
+                max-width: none
+            }
+
+            .form-panel {
+                max-width: 520px;
+                margin: 0 auto;
+                justify-self: center
+            }
+        }
+
+        @media(max-width:600px) {
+            .form-sec {
+                padding: 32px 0
+            }
+
+            .form-card {
+                padding: 32px 16px;
+                border-radius: 20px;
+                background-position: 72% center
+            }
+
+            .form-copy h2 {
+                font-size: 1.9rem
+            }
+
+            .form-panel {
+                padding: 20px 18px
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            html {
+                scroll-behavior: auto
+            }
+
+            * {
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main id="conteudo">
+        <section class="form-sec" id="formulario">
+            <div class="wrap">
+                <div class="form-card">
+                    <div class="form-copy">
+                        <span class="form-label">Depoimentos</span>
+                        <h2>Compartilhe a sua história.</h2>
+                        <p>Se você já viveu alguma experiência com a Mariana, compartilhe como foi. Seu relato ajuda
+                            outras
+                            mulheres a reconhecerem o próprio caminho.</p>
+                        <ul class="form-points">
+                            <li>Leva menos de 3 minutos.</li>
+                            <li>Só publicamos com a sua autorização.</li>
+                            <li>A foto é opcional.</li>
+                        </ul>
+
+                    </div>
+
+                    <div class="form-panel">
+                        <div class="form-panel-head">
+                            <span class="avatar" aria-hidden="true">MG</span>
+                            <div>
+                                <h3>Deixe seu depoimento</h3>
+                                <p>Obrigada por compartilhar a sua história.</p>
+                            </div>
+                        </div>
+
+                        <form id="depo-form" action="https://forminit.com/f/hn3jtwu5y0i" method="POST"
+                            novalidate enctype="multipart/form-data">
+                            <div class="honeypot" aria-hidden="true">
+                                <label for="website">Website</label>
+                                <input type="text" name="_gotcha" id="website" tabindex="-1" autocomplete="off" />
+                            </div>
+                            <input type="hidden" name="fi-text-tipo" value="Depoimento" />
+
+                            <div class="fg">
+                                <div class="field">
+                                    <label for="d-nome">Nome</label>
+                                    <input id="d-nome" name="fi-sender-fullName" type="text" placeholder="Seu nome"
+                                        autocomplete="name" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]+" title="Use apenas letras"
+                                        minlength="2" required />
+                                </div>
+
+                                <div class="field">
+                                    <label for="d-profissao">Profissão</label>
+                                    <input id="d-profissao" name="fi-text-profissao" type="text" placeholder="Sua profissão"
+                                        minlength="2" required />
+                                </div>
+
+                                <div class="field">
+                                    <label for="d-depoimento">Seu depoimento</label>
+                                    <textarea id="d-depoimento" name="fi-text-depoimento" maxlength="250" minlength="40"
+                                        required
+                                        placeholder="Conte o que mudou para você, como se sentiu e o que leva dessa experiência..."></textarea>
+                                    <div class="counter" id="counter" aria-live="polite">0 / 250</div>
+                                </div>
+
+                                <div class="field">
+                                    <label for="d-foto">Foto <span class="hint">(opcional)</span></label>
+                                    <input type="file" id="d-foto" name="fi-file-foto"
+                                        accept=".jpg,.jpeg,.png,.webp,.gif,image/jpeg,image/png,image/webp,image/gif" />
+                                    <p class="file-hint">Aceitamos JPG, PNG, WebP ou GIF, até 5 MB.</p>
+                                    <div class="photo-preview" id="photo-preview" hidden>
+                                        <img id="photo-thumb" alt="Prévia da foto selecionada" />
+                                        <div class="photo-meta">
+                                            <span class="photo-name" id="photo-name"></span>
+                                            <button type="button" class="photo-remove" id="photo-remove">Remover
+                                                foto</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <p class="form-error" id="depo-error" role="alert" hidden></p>
+                            <button type="submit" class="btn btn-gold">Enviar depoimento</button>
+
+                            <div class="consents">
+                                <label>
+                                    <input type="checkbox" name="fi-checkbox-autorizacao" value="yes" id="d-autorizacao" required />
+                                    Autorizo a publicação do meu depoimento e da minha foto neste site.
+                                </label>
+                            </div>
+
+                            <p class="form-note">Seus dados ficam em sigilo. A publicação só acontece com a sua
+                                autorização.</p>
+                        </form>
+
+                        <div class="ok" id="depo-ok" tabindex="-1" hidden>
+                            <span class="ok-badge" aria-hidden="true">MG</span>
+                            <h3>Depoimento enviado com sucesso!</h3>
+                            <p>Obrigada por compartilhar a sua história. A publicação só acontece com a sua autorização.</p>
+                            <button class="link-back" type="button" id="depo-again">Escrever outro depoimento</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://forminit.com/sdk/v1/forminit.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            // Forminit form: inputs are named fi-{type}-{name}. Rules: https://forminit.com/setup.md
+            var FORM_ID = "hn3jtwu5y0i"; // the Form ID from the request
+            var FIELD_ERRORS = {
+                "sender.fullName": "Use apenas letras, espaços, hífens, apóstrofos e pontos."
+            };
+
+            function errorText(error) {
+                var field = error && error.fieldName ? error.fieldName : (/['"]([^'"]+)['"]/.exec((error && error.message) || "") || [])[1];
+                if (field && FIELD_ERRORS[field]) return FIELD_ERRORS[field];
+                if (error && error.error === "TOO_MANY_REQUESTS") return "Aguarde alguns segundos e tente novamente.";
+                return "Não foi possível enviar agora. Tente novamente.";
+            }
+
+            var form = document.getElementById('depo-form');
+            if (!form) return;
+
+            var nomeInput = document.getElementById('d-nome');
+            var profissaoInput = document.getElementById('d-profissao');
+            var depoInput = document.getElementById('d-depoimento');
+            var autorizacaoInput = document.getElementById('d-autorizacao');
+            var honeypotInput = document.getElementById('website');
+            var photoInput = document.getElementById('d-foto');
+            var photoPreview = document.getElementById('photo-preview');
+            var photoThumb = document.getElementById('photo-thumb');
+            var photoName = document.getElementById('photo-name');
+            var photoRemove = document.getElementById('photo-remove');
+            var errorBox = document.getElementById('depo-error');
+            var counter = document.getElementById('counter');
+            var okBox = document.getElementById('depo-ok');
+            var againBtn = document.getElementById('depo-again');
+            var submitBtn = form.querySelector('button[type="submit"]');
+
+            var photoFile = null;
+            var photoUrl = '';
+            var ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            var MAX_SIZE = 5 * 1024 * 1024;
+            var sending = false;
+            var forminit;
+
+            function clearError() {
+                errorBox.textContent = '';
+                errorBox.hidden = true;
+            }
+
+            function showError(message, field) {
+                errorBox.textContent = message;
+                errorBox.hidden = false;
+                if (field && field.focus) field.focus();
+            }
+
+            function clearPhoto() {
+                if (photoUrl) URL.revokeObjectURL(photoUrl);
+                photoUrl = '';
+                photoFile = null;
+                photoInput.value = '';
+                photoThumb.removeAttribute('src');
+                photoName.textContent = '';
+                photoPreview.hidden = true;
+            }
+
+            function formatSize(bytes) {
+                if (bytes < 1024) return bytes + ' B';
+                if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
+                return (bytes / (1024 * 1024)).toFixed(1).replace('.', ',') + ' MB';
+            }
+
+            function validatePhoto(file) {
+                if (ALLOWED_TYPES.indexOf(file.type) === -1) {
+                    return 'Envie uma imagem em JPG, PNG, WebP ou GIF.';
+                }
+                if (file.size > MAX_SIZE) {
+                    return 'A foto deve ter no máximo 5 MB.';
+                }
+                return '';
+            }
+
+            function updateCounter() {
+                var len = depoInput.value.length;
+                counter.textContent = len + ' / 250';
+                counter.classList.toggle('is-over', len >= 250);
+            }
+
+            nomeInput.addEventListener('input', function () {
+                nomeInput.value = nomeInput.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, '');
+            });
+
+            depoInput.addEventListener('input', updateCounter);
+
+            photoInput.addEventListener('change', function () {
+                clearError();
+                var file = photoInput.files && photoInput.files[0];
+                if (!file) {
+                    clearPhoto();
+                    return;
+                }
+                var problem = validatePhoto(file);
+                if (problem) {
+                    showError(problem, photoInput);
+                    clearPhoto();
+                    return;
+                }
+                photoFile = file;
+                if (photoUrl) URL.revokeObjectURL(photoUrl);
+                photoUrl = URL.createObjectURL(file);
+                photoThumb.src = photoUrl;
+                photoName.textContent = file.name + ' · ' + formatSize(file.size);
+                photoPreview.hidden = false;
+            });
+
+            photoRemove.addEventListener('click', function () {
+                clearPhoto();
+                clearError();
+                photoInput.focus();
+            });
+
+            function validate() {
+                clearError();
+
+                if (honeypotInput && honeypotInput.value) {
+                    return { spam: true };
+                }
+
+                var nome = nomeInput.value.trim();
+                var profissao = profissaoInput.value.trim();
+                var depoimento = depoInput.value.trim();
+
+                if (!nome || nome.length < 2) {
+                    showError('Informe seu nome (apenas letras).', nomeInput);
+                    return { ok: false };
+                }
+                if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nome)) {
+                    showError('Use apenas letras no nome.', nomeInput);
+                    return { ok: false };
+                }
+                if (!profissao || profissao.length < 2) {
+                    showError('Informe a sua profissão.', profissaoInput);
+                    return { ok: false };
+                }
+                if (depoimento.length < 40) {
+                    showError('Escreva um depoimento com pelo menos 40 caracteres.', depoInput);
+                    return { ok: false };
+                }
+                if (depoimento.length > 250) {
+                    showError('O depoimento deve ter no máximo 250 caracteres.', depoInput);
+                    return { ok: false };
+                }
+                if (photoInput.files && photoInput.files[0]) {
+                    var problem = validatePhoto(photoInput.files[0]);
+                    if (problem) {
+                        showError(problem, photoInput);
+                        return { ok: false };
+                    }
+                    photoFile = photoInput.files[0];
+                }
+                if (!autorizacaoInput.checked) {
+                    showError('É necessário autorizar a publicação do depoimento e da foto.', autorizacaoInput);
+                    return { ok: false };
+                }
+
+                return {
+                    ok: true,
+                    data: {
+                        nome: nome,
+                        profissao: profissao,
+                        depoimento: depoimento,
+                        autorizacao: true,
+                        foto_nome: photoFile ? photoFile.name : '',
+                        foto_tipo: photoFile ? photoFile.type : '',
+                        pagina: 'depoimentos.html',
+                        data_hora: new Date().toISOString(),
+                        origem: 'site-depoimentos'
+                    }
+                };
+            }
+
+            function showSuccess() {
+                form.hidden = true;
+                okBox.hidden = false;
+                okBox.focus();
+            }
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                if (sending) return;
+
+                var result = validate();
+                if (result.spam) {
+                    showError('Não foi possível validar o envio. Recarregue a página e tente novamente.', honeypotInput);
+                    return;
+                }
+                if (!result.ok) return;
+
+                var fd = new FormData(form);
+                var senderName = fd.get('fi-sender-fullName');
+                if (typeof senderName === 'string') {
+                    fd.set('fi-sender-fullName', senderName.replace(/[\u2018\u2019]/g, "'"));
+                }
+
+                var bytes = 0;
+                fd.forEach(function (value) {
+                    if (value instanceof File) bytes += value.size;
+                });
+                if (bytes > 24 * 1024 * 1024) {
+                    showError('Os arquivos devem somar no máximo 24 MB.', photoInput);
+                    return;
+                }
+
+                clearError();
+                sending = true;
+                submitBtn.disabled = true;
+
+                try {
+                    if (!forminit) forminit = new Forminit();
+                    var response = await forminit.submit(FORM_ID, fd);
+                    var data = response.data;
+                    var error = response.error;
+                    if (error || !data || typeof data.hashId !== 'string') {
+                        console.error('Forminit:', error || data);
+                        var field = error && error.fieldName;
+                        if (!field) {
+                            var match = /['"]([^'"]+)['"]/.exec((error && error.message) || '');
+                            field = match && match[1];
+                        }
+                        showError(errorText(error), field === 'sender.fullName' ? nomeInput : null);
+                        return;
+                    }
+                    showSuccess();
+                } catch (err) {
+                    console.error('Forminit:', err);
+                    showError('Não foi possível enviar agora. Tente novamente.');
+                } finally {
+                    sending = false;
+                    submitBtn.disabled = false;
+                }
+            });
+
+            againBtn.addEventListener('click', function () {
+                form.reset();
+                clearPhoto();
+                form.hidden = false;
+                okBox.hidden = true;
+                clearError();
+                updateCounter();
+                nomeInput.focus();
+            });
+
+            updateCounter();
+        })();
+    </script>
+</body>
+
+</html>
