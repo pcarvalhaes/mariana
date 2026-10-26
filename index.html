@@ -1862,9 +1862,10 @@
     }
 
     .form-panel .btn {
-      width: 100%;
-      margin-top: 18px;
-      padding: 13px 20px;
+      display: flex;
+      width: fit-content;
+      margin: 18px auto 0;
+      padding: 13px 24px;
       background: var(--gold);
       color: #2b0713;
       font-weight: 600
@@ -2860,6 +2861,7 @@
         <h2>O que nossas alunas dizem sobre a sua jornada de prosperidade</h2>
         <p>Relatos de mulheres que estão crescendo com mais consciência, leveza e prosperidade. Sem abrir mão de si
           mesmas.</p>
+        <a href="depoimentos.html" class="btn btn-dark" style="margin-top:22px">Compartilhar meu depoimento</a>
       </div>
       <!-- Substitua os depoimentos abaixo por relatos reais e autorizados -->
       <div class="testi-columns">
@@ -3114,25 +3116,28 @@
               <p>Retorno em até um dia útil.</p>
             </div>
           </div>
-          <form id="form" onsubmit="return send(event)">
+          <form id="form" action="https://forminit.com/f/hn3jtwu5y0i" method="POST">
+            <input type="hidden" name="fi-text-tipo" value="Inscrição" />
+
             <div class="fg">
               <div>
                 <label for="nome">Nome</label>
-                <input id="nome" name="nome" type="text" placeholder="Seu nome" autocomplete="given-name"
+                <input id="nome" name="fi-sender-fullName" type="text" placeholder="Seu nome" autocomplete="given-name"
                   pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]+" title="Use apenas letras" minlength="2" required />
               </div>
               <div>
                 <label for="telefone">Telefone</label>
-                <input id="telefone" name="telefone" type="tel" inputmode="numeric" placeholder="(11) 99118-9007"
+                <input id="telefone" name="fi-text-telefone" type="tel" inputmode="numeric" placeholder="(11) 99118-9007"
                   autocomplete="tel" maxlength="15" pattern="\(\d{2}\) \d{5}-\d{4}" title="Digite DDD + número"
                   required />
               </div>
               <div>
                 <label for="mensagem">Mensagem</label>
-                <textarea id="mensagem" name="mensagem" placeholder="Conte um pouco sobre o seu momento..."
+                <textarea id="mensagem" name="fi-text-mensagem" placeholder="Conte um pouco sobre o seu momento..."
                   required></textarea>
               </div>
             </div>
+            <p class="form-error" id="form-error" role="alert" hidden></p>
             <button type="submit" class="btn btn-gold btn--sm">Enviar mensagem</button>
             <p class="form-note">Seus dados ficam em sigilo.</p>
           </form>
@@ -3192,6 +3197,7 @@
     </div>
   </footer>
 
+  <script src="https://forminit.com/sdk/v1/forminit.js"></script>
   <script>
     const header = document.getElementById('header');
     const burger = document.getElementById('burger'), mobile = document.getElementById('mobile');
@@ -3507,7 +3513,68 @@
       };
       telInput.addEventListener('input', maskPhone);
     }
-    function send(e) { e.preventDefault(); document.getElementById('form').style.display = 'none'; document.getElementById('ok').classList.add('show'); return false }
+    // Forminit form: inputs are named fi-{type}-{name}. Rules: https://forminit.com/setup.md
+    const FORMINIT_FORM_ID = 'hn3jtwu5y0i';
+    const FORMINIT_FIELD_ERRORS = {
+      'sender.fullName': 'Use apenas letras, espaços, hífens, apóstrofos e pontos.'
+    };
+    function forminitErrorText(err) {
+      const field = err && err.fieldName ? err.fieldName : (/['"]([^'"]+)['"]/.exec((err && err.message) || '') || [])[1];
+      if (field && FORMINIT_FIELD_ERRORS[field]) return FORMINIT_FIELD_ERRORS[field];
+      if (err && err.error === 'TOO_MANY_REQUESTS') return 'Aguarde alguns segundos e tente novamente.';
+      return 'Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp (11) 99118-9007.';
+    }
+    let forminitClient;
+    let forminitSending = false;
+
+    async function send(e) {
+      e.preventDefault();
+      if (forminitSending) return;
+
+      const form = document.getElementById('form');
+      const ok = document.getElementById('ok');
+      const error = document.getElementById('form-error');
+      const btn = form.querySelector('button[type="submit"]');
+
+      if (error) { error.hidden = true; error.textContent = ''; }
+
+      const fd = new FormData(form);
+      const senderName = fd.get('fi-sender-fullName');
+      if (typeof senderName === 'string') {
+        fd.set('fi-sender-fullName', senderName.replace(/[‘’]/g, "'"));
+      }
+
+      forminitSending = true;
+      btn.disabled = true;
+      btn.setAttribute('aria-busy', 'true');
+
+      try {
+        if (!forminitClient) forminitClient = new Forminit();
+        const { data, error: submitError } = await forminitClient.submit(FORMINIT_FORM_ID, fd);
+        if (submitError || !data || typeof data.hashId !== 'string') {
+          console.error('Forminit:', submitError || data);
+          if (error) {
+            error.textContent = forminitErrorText(submitError);
+            error.hidden = false;
+          }
+          return;
+        }
+        form.style.display = 'none';
+        ok.classList.add('show');
+      } catch (err) {
+        console.error('Forminit:', err);
+        if (error) {
+          error.textContent = 'Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp (11) 99118-9007.';
+          error.hidden = false;
+        }
+      } finally {
+        forminitSending = false;
+        btn.disabled = false;
+        btn.removeAttribute('aria-busy');
+      }
+    }
+
+    document.getElementById('form').addEventListener('submit', send);
   </script>
 </body>
 
