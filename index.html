@@ -1887,6 +1887,7 @@
     }
 
     /* Depoimentos — layout editorial com citação e retrato, como Aeromint */
+    /* Depoimentos — layout e animação no estilo AnimatedTestimonials (Aceternity UI) */
     .reviews {
       position: relative;
       padding: 100px 0 110px;
@@ -1900,7 +1901,7 @@
       top: 40px;
       left: 38%;
       right: 0;
-      height: 66%;
+      height: 75%;
       background: #e7e3d8;
       pointer-events: none
     }
@@ -1910,15 +1911,11 @@
       z-index: 1
     }
 
+    .reviews-head,
     .reviews-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 40px;
-      align-items: start
-    }
-
-    .reviews-main {
-      min-width: 0
+      max-width: 896px;
+      margin-left: auto;
+      margin-right: auto
     }
 
     .reviews-title {
@@ -1939,10 +1936,75 @@
       line-height: 1.7
     }
 
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 80px;
+      align-items: start;
+      margin-top: 44px
+    }
+
+    /* Fotos empilhadas: a ativa na frente, as outras levemente giradas atrás */
+    .reviews-media {
+      min-width: 0
+    }
+
+    .reviews-images {
+      position: relative;
+      width: 100%;
+      height: 20rem
+    }
+
+    .review-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 1.5rem;
+      object-fit: cover;
+      object-position: center;
+      opacity: .7;
+      z-index: 1;
+      transform-origin: bottom;
+      transform: scale(.95) translateZ(-100px) rotate(var(--tilt, 0deg));
+      transition: opacity .4s ease-in-out, transform .4s ease-in-out;
+      will-change: opacity, transform
+    }
+
+    .review-img.is-active {
+      z-index: 40;
+      opacity: 1;
+      transform: scale(1) translateZ(0) rotate(0deg);
+      animation: reviewRise .4s ease-in-out
+    }
+
+    @keyframes reviewRise {
+      0% {
+        translate: 0 0
+      }
+
+      50% {
+        translate: 0 -80px
+      }
+
+      100% {
+        translate: 0 0
+      }
+    }
+
+    /* Texto: nome, cargo e citação com entrada por palavra */
+    .reviews-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 40px;
+      min-height: 320px;
+      padding: 16px 0;
+      min-width: 0
+    }
+
     .reviews-slider {
       position: relative;
-      margin-top: 38px;
-      padding-left: 60px;
       outline: none
     }
 
@@ -1956,94 +2018,90 @@
       display: grid
     }
 
-    .review-slide {
+    /* Com JS, só o depoimento ativo ocupa altura (a altura acompanha a troca) */
+    .reviews.is-enhanced .reviews-slides {
       position: relative;
+      transition: height .2s ease-in-out
+    }
+
+    .reviews.is-enhanced .review-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0
+    }
+
+    .review-slide {
       grid-area: 1 / 1;
-      display: flex;
-      flex-direction: column;
-      padding: 23px 0 0 40px;
       opacity: 0;
-      visibility: hidden;
-      transition: opacity .35s ease, visibility .35s ease
+      visibility: hidden
     }
 
     .review-slide.is-active {
       opacity: 1;
-      visibility: visible
+      visibility: visible;
+      animation: reviewCopyIn .2s ease-in-out both
     }
 
-    .review-quote-mark {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      color: #e7e3d8;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 118px;
-      line-height: .8;
-      pointer-events: none;
-      user-select: none
-    }
+    @keyframes reviewCopyIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
 
-    .review-slide blockquote,
-    .review-footer {
-      position: relative;
-      z-index: 1
-    }
-
-    .review-slide blockquote {
-      max-width: 500px;
-      color: var(--muted);
-      font-size: 20px;
-      line-height: 1.65;
-      font-weight: 400
-    }
-
-    .review-footer {
-      margin-top: auto;
-      padding-top: 34px;
-      align-self: flex-end;
-      text-align: right
+      to {
+        opacity: 1;
+        transform: none
+      }
     }
 
     .review-name {
-      position: relative;
-      display: inline-block;
-      color: var(--gold);
-      font-size: 21px;
+      font-size: 1.5rem;
       font-weight: 700;
-      letter-spacing: .08em;
-      line-height: 1.2;
-      text-transform: uppercase
-    }
-
-    .review-name::before {
-      content: "";
-      position: absolute;
-      top: 13px;
-      left: -17px;
-      width: 96px;
-      height: 2px;
-      background: rgba(52, 3, 16, .45);
-      transform: translateX(-100%)
+      line-height: 1.33;
+      color: #000
     }
 
     .review-role {
-      margin-top: 4px;
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: .01em
+      font-size: .875rem;
+      line-height: 1.5;
+      color: #6b7280
     }
 
+    .review-quote {
+      margin-top: 2rem;
+      color: #6b7280;
+      font-size: 1.125rem;
+      line-height: 1.65
+    }
+
+    .review-word {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(5px)
+    }
+
+    .review-slide.is-active .review-word {
+      animation: reviewWordIn .2s ease-in-out both;
+      animation-delay: calc(var(--wi, 0) * .02s)
+    }
+
+    @keyframes reviewWordIn {
+      to {
+        opacity: 1;
+        filter: blur(0);
+        transform: none
+      }
+    }
+
+    /* Setas no estilo do componente (h-7 w-7, bg-gray-100) */
     .reviews-actions {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      margin-top: 34px;
-      padding-left: 60px
+      gap: 20px
     }
 
     .reviews-cta {
@@ -2052,29 +2110,26 @@
 
     .reviews-nav {
       display: flex;
-      gap: 14px;
-      margin-left: auto
+      gap: 1rem
     }
 
     .reviews-nav button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 54px;
-      height: 54px;
+      width: 1.75rem;
+      height: 1.75rem;
       padding: 0;
-      border: 1px solid rgba(52, 3, 16, .2);
-      border-radius: 50%;
-      background: transparent;
-      color: var(--muted);
+      border: 0;
+      border-radius: 9999px;
+      background: #f3f4f6;
+      color: #000;
       cursor: pointer;
-      transition: color .25s ease, border-color .25s ease, background .25s ease
+      transition: background-color .2s ease
     }
 
     .reviews-nav button:hover {
-      color: var(--burgundy);
-      border-color: var(--burgundy);
-      background: rgba(255, 255, 255, .45)
+      background: #e5e7eb
     }
 
     .reviews-nav button:focus-visible {
@@ -2083,38 +2138,22 @@
     }
 
     .reviews-nav svg {
-      width: 18px;
-      height: 18px;
+      width: 1.25rem;
+      height: 1.25rem;
       fill: none;
       stroke: currentColor;
-      stroke-width: 1.8;
+      stroke-width: 2;
       stroke-linecap: round;
-      stroke-linejoin: round
+      stroke-linejoin: round;
+      transition: transform .3s ease
     }
 
-    .reviews-media {
-      padding-left: 23px
+    .reviews-nav .review-prev:hover svg {
+      transform: rotate(12deg)
     }
 
-    .reviews-images {
-      position: relative;
-      aspect-ratio: 513 / 532;
-      overflow: hidden;
-      background: #ded8ca
-    }
-
-    .review-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity .35s ease
-    }
-
-    .review-img.is-active {
-      opacity: 1
+    .reviews-nav .review-next:hover svg {
+      transform: rotate(-12deg)
     }
 
     @media (max-width:900px) {
@@ -2127,50 +2166,24 @@
       }
 
       .reviews-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 0
-      }
-
-      /* Empilhado: título, texto de apoio, foto e só então o depoimento */
-      .reviews-main {
-        display: contents
-      }
-
-      .reviews-title {
-        order: 1
-      }
-
-      .reviews-lead {
-        order: 2
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-top: 36px
       }
 
       .reviews-media {
-        order: 3;
         width: min(100%, 420px);
-        margin: 30px auto 0;
-        padding-left: 0
+        margin: 0 auto
       }
 
-      .reviews-slider {
-        order: 4
-      }
-
-      .reviews-actions {
-        order: 5
+      .reviews-content {
+        gap: 48px;
+        min-height: 0;
+        padding: 0
       }
 
       .reviews-title {
         font-size: clamp(2rem, 8vw, 3rem)
-      }
-
-      .review-quote-mark {
-        font-size: 100px
-      }
-
-      .review-slide blockquote {
-        max-width: none;
-        font-size: 19px
       }
     }
 
@@ -2179,61 +2192,26 @@
         padding: 70px 0 80px
       }
 
-      .reviews-slider {
-        margin-top: 30px;
-        padding-left: 34px
-      }
-
-      .reviews-actions {
-        padding-left: 0;
-        justify-content: center
-      }
-
-      .reviews-nav {
-        order: 1;
-        width: 100%;
-        margin-left: 0;
-        justify-content: center
-      }
-
-      .reviews-cta {
-        order: 2;
-        width: 100%;
-        text-align: center
-      }
-
-      .review-slide {
-        padding: 20px 0 0 28px
-      }
-
-      .review-quote-mark {
-        font-size: 86px
-      }
-
-      .review-slide blockquote {
-        font-size: 17px;
-        line-height: 1.7
-      }
-
-      .review-footer {
-        padding-top: 26px
-      }
-
-      .review-name {
-        font-size: 18px
-      }
-
-      .review-name::before {
-        width: 54px
-      }
-
-      .review-role {
-        font-size: 13px
-      }
-
       .reviews-media {
         width: 100%;
         max-width: 340px
+      }
+
+      .reviews-images {
+        height: 18rem
+      }
+
+      .review-name {
+        font-size: 1.375rem
+      }
+
+      .review-quote {
+        font-size: 1rem;
+        line-height: 1.7
+      }
+
+      .reviews-actions {
+        gap: 16px
       }
     }
 
@@ -2242,30 +2220,31 @@
         font-size: 1.6rem
       }
 
-      .reviews-slider {
-        padding-left: 26px
-      }
-
-      .review-slide {
-        padding-left: 22px
-      }
-
-      .review-quote-mark {
-        font-size: 72px
-      }
-
-      .review-slide blockquote {
-        font-size: 16px;
-        line-height: 1.6
+      .reviews-images {
+        height: 16rem
       }
     }
 
     @media (prefers-reduced-motion:reduce) {
 
-      .review-slide,
       .review-img,
-      .reviews-nav button {
-        transition: none
+      .review-img.is-active,
+      .review-slide,
+      .review-slide.is-active,
+      .review-word,
+      .review-slide.is-active .review-word,
+      .reviews.is-enhanced .reviews-slides,
+      .reviews-nav button,
+      .reviews-nav svg {
+        transition: none;
+        animation: none
+      }
+
+      .review-word,
+      .review-slide.is-active .review-word {
+        opacity: 1;
+        filter: none;
+        transform: none
       }
     }
 
@@ -3797,15 +3776,12 @@
                 d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z" />
             </svg>
           </a>
-          <a
-          href="https://www.youtube.com/channel/UCEY1dogLMxKUIJwiKlxgg6g"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Canal de YouTube de Mariana Gusmão"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.1 31.1 0 0 0 0 12s0 3.8.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8ZM9.6 15.8V8.2L16 12l-6.4 3.8Z" />
-          </svg>
+          <a href="https://www.youtube.com/channel/UCEY1dogLMxKUIJwiKlxgg6g" target="_blank" rel="noopener noreferrer"
+            aria-label="Canal de YouTube de Mariana Gusmão">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.1 31.1 0 0 0 0 12s0 3.8.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8ZM9.6 15.8V8.2L16 12l-6.4 3.8Z" />
+            </svg>
           </a>
         </div>
 
@@ -3827,15 +3803,13 @@
             d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z" />
         </svg>
       </a>
-      <a
-          href="https://www.youtube.com/channel/UCEY1dogLMxKUIJwiKlxgg6g"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Canal de YouTube de Mariana Gusmão">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.1 31.1 0 0 0 0 12s0 3.8.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8ZM9.6 15.8V8.2L16 12l-6.4 3.8Z" />
-          </svg>
-            </a>
+      <a href="https://www.youtube.com/channel/UCEY1dogLMxKUIJwiKlxgg6g" target="_blank" rel="noopener noreferrer"
+        aria-label="Canal de YouTube de Mariana Gusmão">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.1 31.1 0 0 0 0 12s0 3.8.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8ZM9.6 15.8V8.2L16 12l-6.4 3.8Z" />
+        </svg>
+      </a>
       </a>
     </div>
     <a href="#inscricao" onclick="closeM()">Inscrição</a>
@@ -3857,8 +3831,12 @@
         <h1>Prosperidade com mais leveza.</h1>
         <p>Uma jornada para mulheres que querem prosperar com mais consciência, sem deixar de cuidar de si.</p>
         <div class="btns">
-          <a href="#inscricao" class="btn btn-light"><span class="btn-label"><span>Quero conhecer a Mentoria</span><span aria-hidden="true">Quero conhecer a Mentoria</span></span><span class="btn-dot" aria-hidden="true"></span></a>
-          <a href="#caminhos" class="btn btn-ghost"><span class="btn-label"><span>Entender se é para mim</span><span aria-hidden="true">Entender se é para mim</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+          <a href="#inscricao" class="btn btn-light"><span class="btn-label"><span>Quero conhecer a Mentoria</span><span
+                aria-hidden="true">Quero conhecer a Mentoria</span></span><span class="btn-dot"
+              aria-hidden="true"></span></a>
+          <a href="#caminhos" class="btn btn-ghost"><span class="btn-label"><span>Entender se é para mim</span><span
+                aria-hidden="true">Entender se é para mim</span></span><span class="btn-dot"
+              aria-hidden="true"></span></a>
         </div>
         <div class="hero-trust">
           <div class="hero-trust__avatars" aria-hidden="true">
@@ -3919,7 +3897,9 @@
             <h3>Consciência aplicada</h3>
             <div class="feat-details">
               <p>Olhe para os padrões e as crenças que influenciam suas escolhas e sua relação com a prosperidade.</p>
-              <a href="#inscricao" class="btn btn-light"><span class="btn-label"><span>Quero entender se a Mentoria é para mim</span><span aria-hidden="true">Quero entender se a Mentoria é para mim</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+              <a href="#inscricao" class="btn btn-light"><span class="btn-label"><span>Quero entender se a Mentoria é
+                    para mim</span><span aria-hidden="true">Quero entender se a Mentoria é para mim</span></span><span
+                  class="btn-dot" aria-hidden="true"></span></a>
             </div>
           </div>
         </div>
@@ -3930,7 +3910,9 @@
             <h3>Expansão sustentada</h3>
             <div class="feat-details">
               <p>Leve novas escolhas para o trabalho, o dinheiro, as relações e a forma como você cuida de si.</p>
-              <a href="#inscricao" class="btn btn-light"><span class="btn-label"><span>Quero entender se a Mentoria é para mim</span><span aria-hidden="true">Quero entender se a Mentoria é para mim</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+              <a href="#inscricao" class="btn btn-light"><span class="btn-label"><span>Quero entender se a Mentoria é
+                    para mim</span><span aria-hidden="true">Quero entender se a Mentoria é para mim</span></span><span
+                  class="btn-dot" aria-hidden="true"></span></a>
             </div>
           </div>
         </div>
@@ -4035,7 +4017,9 @@
               <li>Clareza sobre o momento atual</li>
               <li>Próximo passo personalizado</li>
             </ul>
-            <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Agendar diagnóstico</span><span aria-hidden="true">Agendar diagnóstico</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+            <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Agendar diagnóstico</span><span
+                  aria-hidden="true">Agendar diagnóstico</span></span><span class="btn-dot"
+                aria-hidden="true"></span></a>
           </div>
           <div class="stack-img" style="background-image:url('./assets/images/caminhos01.jpg')">
           </div>
@@ -4050,7 +4034,9 @@
               <li>Comunidade de apoio</li>
               <li>Prática e integração</li>
             </ul>
-            <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Conhecer SoulPróspera</span><span aria-hidden="true">Conhecer SoulPróspera</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+            <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Conhecer SoulPróspera</span><span
+                  aria-hidden="true">Conhecer SoulPróspera</span></span><span class="btn-dot"
+                aria-hidden="true"></span></a>
           </div>
           <div class="stack-img" style="background-image:url('./assets/images/caminhos02.jpg')">
           </div>
@@ -4065,7 +4051,8 @@
               <li>Liderança consciente</li>
               <li>Expansão com leveza</li>
             </ul>
-            <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Saber mais</span><span aria-hidden="true">Saber mais</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+            <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Saber mais</span><span
+                  aria-hidden="true">Saber mais</span></span><span class="btn-dot" aria-hidden="true"></span></a>
           </div>
           <div class="stack-img" style="background-image:url('./assets/images/caminhos03.jpg')"></div>
         </div>
@@ -4151,7 +4138,8 @@
         <h2>Um caminho simples para começar sua expansão.</h2>
         <p class="lead">Comece contando um pouco sobre o que você busca. Assim, Mariana pode entender seu momento e
           conversar com você sobre os próximos passos.</p>
-        <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Quero começar</span><span aria-hidden="true">Quero começar</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+        <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Quero começar</span><span
+              aria-hidden="true">Quero começar</span></span><span class="btn-dot" aria-hidden="true"></span></a>
       </div>
       <div class="how-cards">
         <article class="how-card">
@@ -4275,7 +4263,9 @@
           para sua relação com a prosperidade, a ancestralidade e os ciclos que desejam transformar.</p>
         <p class="about-support">Prosperidade feminina, espiritualidade prática e caminhos possíveis para viver com mais
           leveza.</p>
-        <a href="#caminhos" class="btn"><span class="btn-label"><span>Conheça minhas experiências</span><span aria-hidden="true">Conheça minhas experiências</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+        <a href="#caminhos" class="btn"><span class="btn-label"><span>Conheça minhas experiências</span><span
+              aria-hidden="true">Conheça minhas experiências</span></span><span class="btn-dot"
+            aria-hidden="true"></span></a>
       </div>
       <div class="about-hero-media">
         <div class="about-photo">
@@ -4306,7 +4296,8 @@
       <div class="story-media">
         <div class="story-stage">
           <div class="story-arch">
-            <img src="./assets/images/about02.jpg" alt="Mariana Gusmão com um grupo de mulheres em encontro da SoulPróspera" loading="lazy" />
+            <img src="./assets/images/about02.jpg"
+              alt="Mariana Gusmão com um grupo de mulheres em encontro da SoulPróspera" loading="lazy" />
           </div>
           <div class="story-circle">
             <h3>Por que faço esse trabalho</h3>
@@ -4332,127 +4323,110 @@
   <section class="reviews" id="depoimentos" data-reviews aria-labelledby="depoimentos-title">
     <div class="reviews-bg" aria-hidden="true"></div>
     <div class="wrap">
+      <div class="reviews-head">
+        <h2 class="reviews-title" id="depoimentos-title">Depoimentos.</h2>
+        <p class="reviews-lead">Relatos de mulheres que estão crescendo com mais consciência, leveza e prosperidade.
+          Sem abrir mão de si mesmas.</p>
+      </div>
       <div class="reviews-grid">
-        <div class="reviews-main">
-          <h2 class="reviews-title" id="depoimentos-title">Depoimentos.</h2>
-          <p class="reviews-lead">Relatos de mulheres que estão crescendo com mais consciência, leveza e prosperidade.
-            Sem abrir mão de si mesmas.</p>
-          <!-- Substitua os depoimentos abaixo por relatos reais e autorizados -->
+        <div class="reviews-media" aria-hidden="true">
+          <div class="reviews-images">
+            <img class="review-img is-active" src="./assets/images/depoimentos_roberta-lessa.jpg" alt="" width="760"
+              height="760" loading="lazy" draggable="false" />
+            <img class="review-img" src="./assets/images/depoimento_marcia-machado.jpg" alt="" width="760" height="760"
+              loading="lazy" draggable="false" />
+            <img class="review-img" src="./assets/images/depoimentos_joice-bernardo.jpg" alt="" width="760" height="760"
+              loading="lazy" draggable="false" />
+            <img class="review-img" src="./assets/images/depoimentos_viviane-faria.jpg" alt="" width="760" height="760"
+              loading="lazy" draggable="false" />
+            <img class="review-img" src="./assets/images/depoimento_jessica-garcia.jpg" alt="" width="760" height="760"
+              loading="lazy" draggable="false" />
+            <img class="review-img" src="./assets/images/depoimento_monica-reis.jpg" alt="" width="760" height="760"
+              loading="lazy" draggable="false" />
+            <img class="review-img" src="./assets/images/depoimento_ariane-paula.jpg" alt="" width="760" height="760"
+              loading="lazy" draggable="false" />
+          </div>
+        </div>
+        <div class="reviews-content">
           <div class="reviews-slider" tabindex="0" role="group" aria-roledescription="carrossel"
             aria-label="Depoimentos de alunas">
             <div class="reviews-slides" aria-live="polite">
-              <figure class="review-slide is-active" role="group" aria-roledescription="slide"
-                aria-label="Depoimento 1 de 6" aria-hidden="false">
-                <span class="review-quote-mark" aria-hidden="true">&ldquo;</span>
-                <blockquote>Fazer parte da SoulPróspera é uma oportunidade de fortalecer minha conexão comigo mesma,
-                  ampliar minha visão sobre prosperidade e propósito e descobrir novos caminhos para evoluir. Sou grata
-                  à Mari por essa troca e por essa jornada de transformação.</blockquote>
-                <figcaption class="review-footer">
-                  <p class="review-name">Roberta Lessa</p>
-                  <p class="review-role">Consultora</p>
-                </figcaption>
-              </figure>
-              <figure class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 2 de 6"
+              <div class="review-slide is-active" role="group" aria-roledescription="slide"
+                aria-label="Depoimento 1 de 7" aria-hidden="false">
+                <h3 class="review-name">Roberta Lessa</h3>
+                <p class="review-role">Consultora</p>
+                <blockquote class="review-quote">Fazer parte da SoulPróspera é uma oportunidade de fortalecer minha
+                  conexão comigo mesma, ampliar minha visão sobre prosperidade e propósito e descobrir novos caminhos
+                  para evoluir. Sou grata à Mari por essa troca e por essa jornada de transformação.</blockquote>
+              </div>
+              <div class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 2 de 7"
                 aria-hidden="true">
-                <span class="review-quote-mark" aria-hidden="true">&ldquo;</span>
-                <blockquote>Mari Gusmão é uma guardiã, ela me direciona a caminhar, quebrar crenças e confiar.
-                  Participei 1 ano e renovei, é como se ele segurasse na minha mão para ir em busca do meu sonho.
+                <h3 class="review-name">Marcia Machado</h3>
+                <p class="review-role">Profissional de Educação Física</p>
+                <blockquote class="review-quote">Mari Gusmão é uma guardiã, ela me direciona a caminhar, quebrar crenças
+                  e confiar. Participei 1 ano e renovei, é como se ele segurasse na minha mão para ir em busca do meu
+                  sonho.</blockquote>
+              </div>
+              <div class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 3 de 7"
+                aria-hidden="true">
+                <h3 class="review-name">Joice Bernardo</h3>
+                <p class="review-role">Empreendedora</p>
+                <blockquote class="review-quote">Mari, sou profundamente grata à espiritualidade por ter colocado você
+                  no meu caminho. Sua mentoria chegou em um momento em que eu mais precisava e me ajudou a voltar a
+                  enxergar possibilidades e resgatar minha vontade de viver. Obrigada por seu servir.</blockquote>
+              </div>
+              <div class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 4 de 7"
+                aria-hidden="true">
+                <h3 class="review-name">Viviane Faria</h3>
+                <p class="review-role">Empreendedora na área da beleza</p>
+                <blockquote class="review-quote">A forma como a Mariana conduz nos dá profundidade sem julgamento. Me
+                  senti acolhida para olhar para a minha história e, ao mesmo tempo, impulsionada a agir
+                  diferente.</blockquote>
+              </div>
+              <div class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 5 de 7"
+                aria-hidden="true">
+                <h3 class="review-name">Jessica Garcia</h3>
+                <p class="review-role">Terapeuta empresária</p>
+                <blockquote class="review-quote">Me conectei com a Mari tem quase 5 anos e desde então ela tem sido
+                  usada pela espiritualidade para me guiar. Através do seu trabalho incrível eu vivi inumeras
+                  transformações como transições de carreira e cura da obesidade mórbida. Sou muito grata ♥️
                 </blockquote>
-                <figcaption class="review-footer">
-                  <p class="review-name">Marcia Machado</p>
-                  <p class="review-role">Profissional de Educação Física</p>
-                </figcaption>
-              </figure>
-              <figure class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 3 de 6"
+              </div>
+              <div class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 6 de 7"
                 aria-hidden="true">
-                <span class="review-quote-mark" aria-hidden="true">&ldquo;</span>
-                <blockquote>Mari, sou profundamente grata à espiritualidade por ter colocado você no meu caminho. Sua
-                  mentoria chegou em um momento em que eu mais precisava e me ajudou a voltar a enxergar possibilidades
-                  e resgatar minha vontade de viver. Obrigada por seu servir.
+                <h3 class="review-name">Mônica Reis</h3>
+                <p class="review-role">Massoterapeuta</p>
+                <blockquote class="review-quote">Sou muito grata por estar nessa egregora ,eu tinha muitos
+                  desalinhamento com meu lado espiritual e meu profissional e desde que conheci a Mari muitas coisas
+                  foram e estão se alinhando. Já consigo me olhar como uma linda mulher firmada no que desejar
                 </blockquote>
-                <figcaption class="review-footer">
-                  <p class="review-name">Joice Bernardo </p>
-                  <p class="review-role">Empreendedora</p>
-                </figcaption>
-              </figure>
-              <figure class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 4 de 6"
+              </div>
+              <div class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 7 de 7"
                 aria-hidden="true">
-                <span class="review-quote-mark" aria-hidden="true">&ldquo;</span>
-                <blockquote>A forma como a Mariana conduz nos dá profundidade sem julgamento. Me senti acolhida para
-                  olhar para a minha história e, ao mesmo tempo, impulsionada a agir diferente.</blockquote>
-                <figcaption class="review-footer">
-                  <p class="review-name">Viviane Faria</p>
-                  <p class="review-role">Empreendedora na área da beleza </p>
-                </figcaption>
-              </figure>
-              <figure class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 5 de 6"
-                aria-hidden="true">
-                <span class="review-quote-mark" aria-hidden="true">&ldquo;</span>
-                <blockquote>Me conectei com a Mari tem quase 5 anos e desde então ela tem sido usada pela
-                  espiritualidade para me guiar. Através do seu trabalho incrível eu vivi inumeras transformações como
-                  transições de carreira e cura da obesidade mórbida. Sou muito grata ♥️</blockquote>
-                <figcaption class="review-footer">
-                  <p class="review-name">Jessica Garcia</p>
-                  <p class="review-role">Terapeuta empresária</p>
-                </figcaption>
-              </figure>
-              <figure class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 6 de 6"
-                aria-hidden="true">
-                <span class="review-quote-mark" aria-hidden="true">&ldquo;</span>
-                <blockquote>Sou muito grata por estar nessa egregora ,eu tinha muitos desalinhamento com meu lado espiritual 
-                  e meu profissional e desde que conheci a Mari muitas coisas foram e estão se alinhando. Já consigo me olhar 
-                  como uma linda mulher firmada no que desejar </blockquote>
-                <figcaption class="review-footer">
-                  <p class="review-name">Mônica Reis</p>
-                  <p class="review-role">Massoterapeuta</p>
-                </figcaption>
-              </figure>
-              <figure class="review-slide" role="group" aria-roledescription="slide" aria-label="Depoimento 7 de 7"
-              aria-hidden="true">
-              <span class="review-quote-mark" aria-hidden="true">&ldquo;</span>
-              <blockquote>A Soul Prospera foi um marco na minha jornada. Ao longo desses meses, construí muito mais do que conquistas: 
-                fortaleci meu poder pessoal, aprendi, criei laços e descobri que a sustentação é o que nos fortalece nos momentos 
-                desafiadores. Gratidão. </blockquote>
-              <figcaption class="review-footer">
-                <p class="review-name">Ariane Paula</p>
+                <h3 class="review-name">Ariane Paula</h3>
                 <p class="review-role">Nutricionista</p>
-              </figcaption>
-            </figure>
-            
+                <blockquote class="review-quote">A Soul Prospera foi um marco na minha jornada. Ao longo desses meses,
+                  construí muito mais do que conquistas: fortaleci meu poder pessoal, aprendi, criei laços e descobri
+                  que a sustentação é o que nos fortalece nos momentos desafiadores. Gratidão.</blockquote>
+              </div>
             </div>
           </div>
           <div class="reviews-actions">
-            <a href="depoimentos.html" class="btn btn-dark reviews-cta"><span class="btn-label"><span>Compartilhar meu depoimento</span><span aria-hidden="true">Compartilhar meu depoimento</span></span><span class="btn-dot" aria-hidden="true"></span></a>
             <div class="reviews-nav">
               <button type="button" class="review-prev" aria-label="Depoimento anterior">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M15 18l-6-6 6-6" />
+                  <path d="M5 12l14 0M5 12l6 6M5 12l6 -6" />
                 </svg>
               </button>
               <button type="button" class="review-next" aria-label="Próximo depoimento">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M9 18l6-6-6-6" />
+                  <path d="M5 12l14 0M19 12l-6 6M19 12l-6 -6" />
                 </svg>
               </button>
             </div>
-          </div>
-        </div>
-        <div class="reviews-media" aria-hidden="true">
-          <div class="reviews-images">
-            <img class="review-img is-active" src="./assets/images/depoimentos_roberta-lessa.jpg" alt="" width="760"
-              height="760" loading="lazy" />
-            <img class="review-img" src="./assets/images/depoimento_marcia-machado.jpg" alt="" width="760" height="760"
-              loading="lazy" />
-            <img class="review-img" src="./assets/images/depoimentos_joice-bernardo.jpg" alt="" width="760" height="760"
-              loading="lazy" />
-            <img class="review-img" src="./assets/images/depoimentos_viviane-faria.jpg" alt="" width="760" height="760"
-              loading="lazy" />
-            <img class="review-img" src="./assets/images/depoimento_jessica-garcia.jpg" alt="" width="760" height="760"
-              loading="lazy" />
-            <img class="review-img" src="./assets/images/depoimento_monica-reis.jpg" alt="" width="760" height="760"
-              loading="lazy" />
-              <img class="review-img" src="./assets/images/depoimento_ariane-paula.jpg" alt="" width="760" height="760"
-              loading="lazy" />
+            <a href="depoimentos.html" class="btn btn-dark reviews-cta"><span class="btn-label"><span>Compartilhar meu
+                  depoimento</span><span aria-hidden="true">Compartilhar meu depoimento</span></span><span
+                class="btn-dot" aria-hidden="true"></span></a>
           </div>
         </div>
       </div>
@@ -4466,7 +4440,8 @@
         <span class="pill">DÚVIDAS FREQUENTES</span>
         <h2>Tudo o que você precisa saber antes de começar.</h2>
         <p>Encontre respostas claras sobre a Mentoria, o diagnóstico e os próximos passos da sua jornada.</p>
-        <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Falar com Mariana</span><span aria-hidden="true">Falar com Mariana</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+        <a href="#inscricao" class="btn btn-dark"><span class="btn-label"><span>Falar com Mariana</span><span
+              aria-hidden="true">Falar com Mariana</span></span><span class="btn-dot" aria-hidden="true"></span></a>
       </div>
       <div class="faq-list">
         <div class="faq-item">
@@ -4560,7 +4535,9 @@
               </div>
             </div>
             <p class="form-error" id="form-error" role="alert" hidden></p>
-            <button type="submit" class="btn btn-gold btn--sm"><span class="btn-label"><span>Enviar mensagem</span><span aria-hidden="true">Enviar mensagem</span></span><span class="btn-dot" aria-hidden="true"></span></button>
+            <button type="submit" class="btn btn-gold btn--sm"><span class="btn-label"><span>Enviar mensagem</span><span
+                  aria-hidden="true">Enviar mensagem</span></span><span class="btn-dot"
+                aria-hidden="true"></span></button>
             <p class="form-note">Seus dados ficam em sigilo.</p>
           </form>
           <div class="ok" id="ok">
@@ -4578,7 +4555,9 @@
     <div class="wrap">
       <h2>Você pode buscar seus objetivos sem deixar de cuidar de si.</h2>
       <p>Existe uma forma mais leve, consciente e íntegra de avançar.</p>
-      <a href="#inscricao" class="btn btn-light"><span class="btn-label"><span>Quero conhecer a Mentoria</span><span aria-hidden="true">Quero conhecer a Mentoria</span></span><span class="btn-dot" aria-hidden="true"></span></a>
+      <a href="#inscricao" class="btn btn-light"><span class="btn-label"><span>Quero conhecer a Mentoria</span><span
+            aria-hidden="true">Quero conhecer a Mentoria</span></span><span class="btn-dot"
+          aria-hidden="true"></span></a>
     </div>
   </section>
 
@@ -4592,18 +4571,17 @@
             <a href="https://instagram.com/eumarianagusmao" target="_blank" rel="noopener"
               aria-label="Instagram de Mariana Gusmão">
               <svg viewBox="0 0 256 256" aria-hidden="true">
-                <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z" />
+                <path
+                  d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z" />
               </svg>
             </a>
-            
-          <a
-          href="https://www.youtube.com/channel/UCEY1dogLMxKUIJwiKlxgg6g"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Canal de YouTube de Mariana Gusmão">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.1 31.1 0 0 0 0 12s0 3.8.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8ZM9.6 15.8V8.2L16 12l-6.4 3.8Z" />
-          </svg>
+
+            <a href="https://www.youtube.com/channel/UCEY1dogLMxKUIJwiKlxgg6g" target="_blank" rel="noopener noreferrer"
+              aria-label="Canal de YouTube de Mariana Gusmão">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.1 31.1 0 0 0 0 12s0 3.8.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8ZM9.6 15.8V8.2L16 12l-6.4 3.8Z" />
+              </svg>
             </a>
           </div>
         </div>
@@ -4977,7 +4955,8 @@
       ['.how-head > *', 80],
       ['.why-us-head', 0],
       ['.why-us-center', 0],
-      ['.reviews-main > *', 80],
+      ['.reviews-head > *', 80],
+      ['.reviews-actions', 0],
       ['.reviews-media', 0],
       ['.about-hero-copy > *', 70],
       ['.about-hero-media', 0],
@@ -5051,6 +5030,31 @@
       slides.splice(0, slides.length, ...reviewOrder.map(i => slides[i]));
       images.splice(0, images.length, ...reviewOrder.map(i => images[i]));
 
+      // Citação quebrada em palavras para o efeito de blur do componente.
+      slides.forEach(slide => {
+        const quote = slide.querySelector('.review-quote');
+        if (!quote) return;
+        const words = quote.textContent.trim().split(/\s+/);
+        quote.replaceChildren(...words.map((word, i) => {
+          const span = document.createElement('span');
+          span.className = 'review-word';
+          span.style.setProperty('--wi', i);
+          span.textContent = word + '\u00a0';
+          return span;
+        }));
+      });
+
+      // Giro aleatório (-10° a 10°) das fotos que ficam atrás.
+      const randomTilt = () => `${Math.floor(Math.random() * 21) - 10}deg`;
+
+      // A altura do bloco passa a acompanhar só o depoimento ativo.
+      reviewsRoot.classList.add('is-enhanced');
+
+      function setSlidesHeight() {
+        const active = slides[reviewIndex];
+        if (active) slidesWrap.style.height = active.offsetHeight + 'px';
+      }
+
       function showReview(index) {
         reviewIndex = (index + slides.length) % slides.length;
         slides.forEach((slide, i) => {
@@ -5058,7 +5062,22 @@
           slide.classList.toggle('is-active', active);
           slide.setAttribute('aria-hidden', active ? 'false' : 'true');
         });
-        images.forEach((img, i) => img.classList.toggle('is-active', i === reviewIndex));
+        images.forEach((img, i) => {
+          const active = i === reviewIndex;
+          img.classList.toggle('is-active', active);
+          img.style.setProperty('--tilt', active ? '0deg' : randomTilt());
+          img.style.zIndex = active ? 40 : images.length + 2 - i;
+        });
+        setSlidesHeight();
+      }
+
+      let resizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(setSlidesHeight, 120);
+      });
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(setSlidesHeight);
       }
 
       prev.addEventListener('click', () => showReview(reviewIndex - 1));
