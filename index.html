@@ -2156,6 +2156,49 @@
       transform: rotate(-12deg)
     }
 
+    /* Arrastar com o dedo (ou mouse sobre a foto) para trocar de depoimento */
+    .reviews-media,
+    .reviews-slider {
+      touch-action: pan-y
+    }
+
+    /* A foto é só gesto: nada de seleção/arraste nativo da imagem */
+    .reviews-media,
+    .reviews-images {
+      -webkit-user-select: none;
+      user-select: none
+    }
+
+    /* Durante o gesto, evita selecionar o texto sem querer */
+    .reviews.is-dragging {
+      -webkit-user-select: none;
+      user-select: none
+    }
+
+    .reviews-media {
+      cursor: grab
+    }
+
+    .reviews-images,
+    .reviews-slider {
+      transition: transform .28s cubic-bezier(.22, .61, .36, 1)
+    }
+
+    .reviews.is-dragging,
+    .reviews.is-dragging .reviews-media {
+      cursor: grabbing
+    }
+
+    .reviews.is-dragging .reviews-images {
+      transition: none;
+      transform: translate3d(calc(var(--drag-x, 0px) * .35), 0, 0)
+    }
+
+    .reviews.is-dragging .reviews-slider {
+      transition: none;
+      transform: translate3d(calc(var(--drag-x, 0px) * .12), 0, 0)
+    }
+
     @media (max-width:900px) {
       .reviews {
         padding: 80px 0 90px
@@ -2185,6 +2228,29 @@
       .reviews-title {
         font-size: clamp(2rem, 8vw, 3rem)
       }
+
+      /* Em telas sem hover (tablet/celular) as setas ganham área de toque */
+      .reviews-nav button {
+        width: 2.75rem;
+        height: 2.75rem;
+        background: #fff;
+        border: 1px solid rgba(52, 3, 16, .14);
+        box-shadow: 0 1px 2px rgba(52, 3, 16, .05)
+      }
+
+      .reviews-nav button:hover {
+        background: #faf9f5
+      }
+
+      .reviews-nav svg {
+        width: 1.375rem;
+        height: 1.375rem
+      }
+
+      .reviews-nav .review-prev:hover svg,
+      .reviews-nav .review-next:hover svg {
+        transform: none
+      }
     }
 
     @media (max-width:600px) {
@@ -2210,8 +2276,26 @@
         line-height: 1.7
       }
 
+      /* Setas centralizadas, maiores e com o CTA logo abaixo */
       .reviews-actions {
-        gap: 16px
+        flex-direction: column;
+        align-items: center;
+        gap: 18px
+      }
+
+      .reviews-nav {
+        justify-content: center;
+        gap: 20px
+      }
+
+      .reviews-nav button {
+        width: 3rem;
+        height: 3rem
+      }
+
+      .reviews-cta {
+        width: 100%;
+        max-width: 340px
       }
     }
 
@@ -2222,6 +2306,12 @@
 
       .reviews-images {
         height: 16rem
+      }
+
+      .reviews-cta {
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 13px
       }
     }
 
@@ -2234,6 +2324,8 @@
       .review-word,
       .review-slide.is-active .review-word,
       .reviews.is-enhanced .reviews-slides,
+      .reviews-images,
+      .reviews-slider,
       .reviews-nav button,
       .reviews-nav svg {
         transition: none;
@@ -5088,22 +5180,63 @@
         if (e.key === 'ArrowRight') { e.preventDefault(); showReview(reviewIndex + 1); }
       });
 
-      let touchX = null;
-      let touchY = null;
-      slider.addEventListener('touchstart', (e) => {
-        touchX = e.touches[0].clientX;
-        touchY = e.touches[0].clientY;
-      }, { passive: true });
-      slider.addEventListener('touchend', (e) => {
-        if (touchX === null) return;
-        const dx = e.changedTouches[0].clientX - touchX;
-        const dy = e.changedTouches[0].clientY - touchY;
-        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-          showReview(reviewIndex + (dx < 0 ? 1 : -1));
+      // Arraste horizontal (dedo, caneta ou mouse sobre a foto) para trocar de depoimento.
+      const dragSurfaces = [imagesWrap, slider];
+      let drag = null;
+      let suppressClick = false;
+
+      function dragStart(e) {
+        if (drag) return;
+        if (e.target.closest('a, button, input, textarea, select')) return;
+        // No desktop o texto continua selecionável: com mouse, arrasta só pela foto.
+        if (e.pointerType === 'mouse' && (e.button !== 0 || e.currentTarget !== imagesWrap)) return;
+        drag = { surface: e.currentTarget, id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, active: false, captured: false };
+      }
+
+      function dragMove(e) {
+        if (!drag || e.pointerId !== drag.id) return;
+        const dx = e.clientX - drag.x;
+        const dy = e.clientY - drag.y;
+        if (!drag.active) {
+          if (Math.abs(dx) < 8 || Math.abs(dx) <= Math.abs(dy)) return;
+          drag.active = true;
+          reviewsRoot.classList.add('is-dragging');
+          if (!drag.captured) {
+            drag.captured = true;
+            try { drag.surface.setPointerCapture(drag.id); } catch (err) { }
+          }
         }
-        touchX = null;
-        touchY = null;
-      }, { passive: true });
+        e.preventDefault();
+        drag.dx = Math.max(-140, Math.min(140, dx));
+        reviewsRoot.style.setProperty('--drag-x', drag.dx + 'px');
+      }
+
+      function dragEnd(e) {
+        if (!drag || e.pointerId !== drag.id) return;
+        const state = drag;
+        drag = null;
+        reviewsRoot.classList.remove('is-dragging');
+        reviewsRoot.style.setProperty('--drag-x', '0px');
+        if (state.captured) { try { state.surface.releasePointerCapture(state.id); } catch (err) { } }
+        if (!state.active || e.type === 'pointercancel') return;
+        suppressClick = true;
+        setTimeout(() => { suppressClick = false; }, 80);
+        if (Math.abs(state.dx) > 55) showReview(reviewIndex + (state.dx < 0 ? 1 : -1));
+      }
+
+      dragSurfaces.forEach(surface => {
+        surface.addEventListener('pointerdown', dragStart);
+        surface.addEventListener('pointermove', dragMove, { passive: false });
+        surface.addEventListener('pointerup', dragEnd);
+        surface.addEventListener('pointercancel', dragEnd);
+      });
+
+      // Um arraste não deve virar clique/toque acidental.
+      reviewsRoot.addEventListener('click', (e) => {
+        if (!suppressClick) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }, true);
 
       showReview(0);
     }
