@@ -74,39 +74,99 @@
         }
 
         .btn {
+            --btn-line: rgba(52, 3, 16, .16);
+            --btn-dot: var(--burgundy);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 24px;
-            border-radius: 100px;
+            gap: 10px;
+            padding: 14px 24px;
+            border-radius: 50px;
+            border: 1px solid var(--btn-line);
             font-size: 14px;
-            font-weight: 500;
-            border: none;
+            font-weight: 600;
+            line-height: 1.2;
             cursor: pointer;
-            transition: opacity .2s, transform .2s, box-shadow .2s;
+            background: transparent;
+            color: inherit;
+            transition: background-color .3s ease, border-color .3s ease, color .3s ease;
         }
 
-        .btn:hover {
-            opacity: .9;
-            transform: scale(1.02);
-            box-shadow: 0 10px 24px rgba(52, 3, 16, .14)
+        /* Texto duplicado que sobe no hover */
+        .btn-label {
+            position: relative;
+            display: block;
+            overflow: hidden;
+        }
+
+        .btn-label>span {
+            display: block;
+            transition: transform .55s cubic-bezier(.22, .61, .36, 1);
+        }
+
+        .btn-label>span+span {
+            position: absolute;
+            left: 0;
+            top: 100%;
+        }
+
+        .btn:hover .btn-label>span,
+        .btn:focus-visible .btn-label>span {
+            transform: translateY(-100%);
+        }
+
+        .btn-dot {
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--btn-line);
+            border-radius: 50%;
+            transition: border-color .3s ease;
+        }
+
+        .btn-dot::before {
+            content: "";
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--btn-dot);
+            transition: width .45s cubic-bezier(.22, .61, .36, 1),
+                height .45s cubic-bezier(.22, .61, .36, 1);
+        }
+
+        .btn:hover .btn-dot::before,
+        .btn:focus-visible .btn-dot::before {
+            width: 10px;
+            height: 10px;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
         }
 
         .btn-gold {
             background: var(--gold);
-            color: #fff
+            color: #fff;
+            --btn-line: rgba(255, 255, 255, .3);
+            --btn-dot: var(--burgundy);
         }
 
         .btn-ghost {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, .32);
-            color: #fff
+            color: #fff;
+            --btn-line: rgba(255, 255, 255, .5);
+            --btn-dot: #fff;
         }
 
         .btn-outline {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, .24);
-            color: rgba(255, 255, 255, .88)
+            color: rgba(255, 255, 255, .88);
+            --btn-line: rgba(255, 255, 255, .32);
+            --btn-dot: #fff;
         }
 
         /* Bloco único, como a inscrição da home */
@@ -459,7 +519,6 @@
             display: flex;
             width: fit-content;
             margin: 14px auto 0;
-            padding: 12px 26px;
             background: var(--gold);
             color: #2b0713;
             font-weight: 600
@@ -701,7 +760,7 @@
                             </div>
 
                             <p class="form-error" id="depo-error" role="alert" hidden></p>
-                            <button type="submit" class="btn btn-gold">Enviar depoimento</button>
+                            <button type="submit" class="btn btn-gold"><span class="btn-label"><span>Enviar depoimento</span><span aria-hidden="true">Enviar depoimento</span></span><span class="btn-dot" aria-hidden="true"></span></button>
 
                             <div class="consents">
                                 <label>
